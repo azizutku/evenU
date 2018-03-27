@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_layout"
+    android:id="@+id/main_rlt"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_main_screen"
@@ -12,7 +12,7 @@
 
 
     <ImageView
-        android:id="@+id/slide_image2"
+        android:id="@+id/main_img_logo"
         android:layout_width="230dp"
         android:layout_height="108dp"
         android:layout_alignParentTop="true"
@@ -21,17 +21,17 @@
         app:srcCompat="@drawable/logo"/>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/main_slide_viewpager"
+        android:id="@+id/main_viewpager_slide"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/slide_image2"
+        android:layout_below="@+id/main_img_logo"
         android:layout_margin="0dp">
 
     </android.support.v4.view.ViewPager>
 
     <LinearLayout
-        android:id="@+id/main_linear"
+        android:id="@+id/main_lnr_dots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -42,10 +42,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/main_sign"
+        android:id="@+id/main_lnr_sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/main_linear"
+        android:layout_above="@+id/main_lnr_dots"
         android:layout_centerHorizontal="false"
 
         android:layout_marginBottom="20dp"
@@ -53,7 +53,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/main_btn_sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_btn_signin_selector"
@@ -72,7 +72,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/main_txt_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -87,7 +87,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/main_txt_forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
