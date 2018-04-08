@@ -6,7 +6,7 @@
     <string name="hint_email">Email</string>
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="create_new_account">Create new account</string>
-    <string name="hint_display_name">Display Name</string>
+    <string name="hint_name">Name</string>
     <string name="send">SEND</string>
     <string name="enter_your_email_or_school_id">Enter your email or school ID</string>
     <string name="hint_email_or_school_id">Email or School ID</string>
