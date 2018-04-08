@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">evenU</string>
+    <string name="hint_password">Password</string>
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="login">LOGIN</string>
+    <string name="hint_email">Email</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="hint_display_name">Display Name</string>
+    <string name="send">SEND</string>
+    <string name="enter_your_email_or_school_id">Enter your email or school ID</string>
+    <string name="hint_email_or_school_id">Email or School ID</string>
 </resources>

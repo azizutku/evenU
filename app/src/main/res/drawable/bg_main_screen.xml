@@ -6,11 +6,11 @@
   android:startColor="#a30c34"
 
   android:endColor="#d6525d"
-        android:startColor="#c11140"
+  android:startColor="#c11140"
  -->
     <gradient
         android:angle="90"
-        android:endColor="#c11140"
+        android:endColor="#C22B1F"
         android:startColor="#a30c34"
         android:type="linear"/>
 
