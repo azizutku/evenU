@@ -61,16 +61,20 @@ public class VerifyActivity extends AppCompatActivity {
 		btnContinue.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				user.reload();
-				if (!user.isEmailVerified()) {
-					Snackbar snackbar = Snackbar.make(rlt, "Your email address has not been verified yet!", Snackbar.LENGTH_LONG);
-					snackbar.show();
-				} else {
-					Intent intent = new Intent(VerifyActivity.this, MainActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-					startActivity(intent);
-					finish();
-				}
+				user.reload().addOnCompleteListener(new OnCompleteListener<Void>() {
+					@Override
+					public void onComplete(@NonNull Task<Void> task) {
+						if (!user.isEmailVerified()) {
+							Snackbar snackbar = Snackbar.make(rlt, "Your email address has not been verified yet!", Snackbar.LENGTH_LONG);
+							snackbar.show();
+						} else {
+							Intent intent = new Intent(VerifyActivity.this, MainActivity.class);
+							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+							startActivity(intent);
+							finish();
+						}
+					}
+				});
 			}
 		});
 
