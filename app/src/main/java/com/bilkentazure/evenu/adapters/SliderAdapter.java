@@ -36,8 +36,8 @@ public class SliderAdapter extends PagerAdapter {
 
 	public String[] slide_descriptions = {
 			"To our event organizing application.",
-			"Keep track of your GE points",
-			"View events in an organized way"
+			"You can keep track of your GE points.",
+			"You can view events in an organized way."
 	};
 
 	public int[] slide_images = {

@@ -45,13 +45,13 @@
         android:textSize="18sp"/>
 
     <Button
-        android:id="@+id/login_btn_create_account"
+        android:id="@+id/login_btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/login_edt_email"
         android:layout_below="@+id/login_txt_forgot_pass"
         android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/bg_round_button"
         android:fontFamily="@font/roboto_medium"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"

@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".StartActivity">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -23,14 +25,17 @@
 
         <activity
             android:name=".LoginActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".StartActivity">
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".StartActivity">
         </activity>
-        <activity android:name=".ForgotPassActivity"
+        <activity
+            android:name=".ForgotPassActivity"
             android:parentActivityName=".LoginActivity">
+        </activity>
+        <activity android:name=".VerifyActivity">
         </activity>
     </application>
 

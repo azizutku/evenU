@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/verify_rlt"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    tools:context=".VerifyActivity">
+
+
+    <TextView
+        android:id="@+id/verify_txt_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="220dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/roboto"
+        android:text="To continue, please verify your email address!"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/verify_txt_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:id="@+id/verify_btn_send"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="204dp"
+            android:background="@drawable/bg_round_button"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="SEND AGAIN"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/verify_btn_continue"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toRightOf="@+id/verify_btn_send"
+            android:background="@drawable/bg_round_button_white"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="CONTINUE"
+            android:textColor="@color/colorPrimary"/>
+    </RelativeLayout>
+
+</RelativeLayout>

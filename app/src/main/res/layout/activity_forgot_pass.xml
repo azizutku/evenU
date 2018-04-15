@@ -27,13 +27,13 @@
         android:textSize="18sp"/>
 
     <Button
-        android:id="@+id/forgot_btn_create_account"
+        android:id="@+id/forgot_btn_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/forgot_edt_email"
         android:layout_below="@+id/forgot_edt_email"
         android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/bg_round_button"
         android:fontFamily="@font/roboto_medium"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
