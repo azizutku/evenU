@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
 									intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 									startActivity(intent);
 									finish();
-									
+
 								} else {
 
 									Intent intent = new Intent(LoginActivity.this, VerifyActivity.class);
