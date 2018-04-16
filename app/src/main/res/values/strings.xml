@@ -11,4 +11,7 @@
     <string name="enter_your_email_or_school_id">Enter your email or school ID</string>
     <string name="hint_email_or_school_id">Email or School ID</string>
     <string name="hint_school_id">School ID</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
