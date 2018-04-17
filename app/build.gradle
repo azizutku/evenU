@@ -27,13 +27,21 @@ dependencies {
 
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
 
-    //Firebase
-    implementation 'com.google.firebase:firebase-auth:15.0.0'
-    implementation 'com.google.firebase:firebase-firestore:15.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    /**
+     * EXTERNAL LIBRARIES
+     */
+
+    //Firebase
+    implementation 'com.google.firebase:firebase-auth:15.0.0'
+    implementation 'com.google.firebase:firebase-firestore:15.0.0'
+
+    //About page
+    compile 'com.github.medyo:android-about-page:1.2.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

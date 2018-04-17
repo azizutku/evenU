@@ -133,6 +133,12 @@ public class MainActivity extends AppCompatActivity {
 		finish();
 	}
 
+	private void sendToAbout(){
+		Intent intent = new Intent(MainActivity.this,AboutActivity.class);
+		startActivity(intent);
+		//finish();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -148,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 			case R.id.menu_main_help:
 				break;
 			case R.id.menu_main_about:
+				sendToAbout();
 				break;
 			case R.id.menu_main_signout:
 				FirebaseAuth.getInstance().signOut();

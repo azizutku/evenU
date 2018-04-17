@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.bilkentazure.evenu">
+    package="com.bilkentazure.evenu">
 
     <application
         android:allowBackup="true"
@@ -11,32 +11,31 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartActivity">
-        </activity>
+        <activity android:name=".StartActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts"/>
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".LoginActivity"
-            android:parentActivityName=".StartActivity">
-        </activity>
+            android:parentActivityName=".StartActivity" />
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity">
-        </activity>
+            android:parentActivityName=".StartActivity" />
         <activity
             android:name=".ForgotPassActivity"
-            android:parentActivityName=".LoginActivity">
-        </activity>
-        <activity android:name=".VerifyActivity">
-        </activity>
+            android:parentActivityName=".LoginActivity" />
+        <activity android:name=".VerifyActivity" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
