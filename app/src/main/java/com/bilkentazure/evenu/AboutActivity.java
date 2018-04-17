@@ -54,8 +54,8 @@ public class AboutActivity extends AppCompatActivity {
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setDescription("evenU brings you all Bilkent events in a stylish and accessible way!")
-                .setImage(R.drawable.about_logo)
-                .addGroup("Made with ♥ by")
+                //.setImage(R.drawable.about_logo)
+                .addGroup("Made with by")
                 .addItem(devs[0])
 				.addItem(devs[1])
 				.addItem(devs[2])
@@ -83,7 +83,6 @@ public class AboutActivity extends AppCompatActivity {
 				public void onClick(View v) {
 					Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + mails[finalI]));
 					emailIntent.putExtra(Intent.EXTRA_SUBJECT, "evenU");
-					emailIntent.putExtra(Intent.EXTRA_TEXT, "");
 					startActivity(Intent.createChooser(emailIntent, "Select one of them"));
 				}
 			});
