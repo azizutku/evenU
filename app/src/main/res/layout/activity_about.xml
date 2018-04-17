@@ -9,24 +9,10 @@
     tools:context="com.bilkentazure.evenu.AboutActivity">
 
 
-    <android.support.v7.widget.Toolbar
+    <include
         android:id="@+id/about_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        layout="@layout/app_bar_layout"/>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="17dp"
-        android:text="About page"
-        android:textSize="18sp" />
+
 
 </RelativeLayout>

@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
-import android.widget.RelativeLayout;
+
 
 public class AboutActivity extends AppCompatActivity {
 
