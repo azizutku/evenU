@@ -13,7 +13,7 @@
         layout="@layout/app_bar_layout"/>
 
     <RelativeLayout
-        android:id="@+id/about_rlt2"
+        android:id="@+id/about_rlt_content"
         android:layout_below="@id/about_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></RelativeLayout>
