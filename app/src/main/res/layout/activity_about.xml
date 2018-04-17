@@ -16,7 +16,7 @@
         android:id="@+id/about_rlt_content"
         android:layout_below="@id/about_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></RelativeLayout>
+        android:layout_height="match_parent"/>
 
 
 
