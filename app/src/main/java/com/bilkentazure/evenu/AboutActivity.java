@@ -54,7 +54,7 @@ public class AboutActivity extends AppCompatActivity {
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setDescription("evenU brings you all Bilkent events in a stylish and accessible way!")
-                //.setImage(R.drawable.about_logo)
+                .setImage(R.drawable.about_logo)
                 .addGroup("Made with by")
                 .addItem(devs[0])
 				.addItem(devs[1])
