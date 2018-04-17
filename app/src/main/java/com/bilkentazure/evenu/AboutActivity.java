@@ -20,16 +20,10 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RelativeLayout rlt = new RelativeLayout(this);
-
-
-        Element adsElement = new Element();
-        adsElement.setTitle("Advertise with us");
-
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
-                .setDescription("evenU brings you all Bilkent events in a stylish and accessible way!")
                 .setImage(R.drawable.about_logo)
+                .setDescription("evenU brings you all Bilkent events in a stylish and accessible way!")
                 .addItem(new Element().setTitle("Version 1.0"))
                 .addGroup("Made with love by")
                 .addItem(new Element().setTitle("Aysegul ♥ Zeyad ♥ Utku ♥ Rana ♥ Endri ♥"))
@@ -41,14 +35,12 @@ public class AboutActivity extends AppCompatActivity {
                 .addGitHub("https://github.com/AzizUtku/evenU")
                 .create();
 
-
         setContentView(R.layout.activity_about);
-
         mToolbar = findViewById(R.id.about_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("About page");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        RelativeLayout rlt2 = findViewById(R.id.about_rlt2);
-        rlt2.addView(aboutPage);
+        RelativeLayout rlt = findViewById(R.id.about_rlt2);
+        rlt.addView(aboutPage);
     }
 }
