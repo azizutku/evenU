@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
 	private void sendToAbout(){
 		Intent intent = new Intent(MainActivity.this,AboutActivity.class);
 		startActivity(intent);
-		//finish();
 	}
 
 	@Override
@@ -151,8 +150,6 @@ public class MainActivity extends AppCompatActivity {
 		super.onOptionsItemSelected(item);
 
 		switch(item.getItemId()){
-			case R.id.menu_main_help:
-				break;
 			case R.id.menu_main_about:
 				sendToAbout();
 				break;

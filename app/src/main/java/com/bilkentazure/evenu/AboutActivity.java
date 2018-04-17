@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
-
+import android.widget.RelativeLayout;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -20,10 +20,8 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //mToolbar = findViewById(R.id.about_toolbar);
-        //setSupportActionBar(mToolbar);
-        //getSupportActionBar().setTitle("About page");
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        RelativeLayout rlt = new RelativeLayout(this);
+
 
         Element adsElement = new Element();
         adsElement.setTitle("Advertise with us");
@@ -43,6 +41,14 @@ public class AboutActivity extends AppCompatActivity {
                 .addGitHub("https://github.com/AzizUtku/evenU")
                 .create();
 
-        setContentView(aboutPage);
+
+        setContentView(R.layout.activity_about);
+
+        mToolbar = findViewById(R.id.about_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("About page");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        RelativeLayout rlt2 = findViewById(R.id.about_rlt2);
+        rlt2.addView(aboutPage);
     }
 }
