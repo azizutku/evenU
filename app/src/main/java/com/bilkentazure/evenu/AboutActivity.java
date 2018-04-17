@@ -19,11 +19,11 @@ public class AboutActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     String[] names = {
-    		"-Ayşegül Gökçe",
-			"-Aziz Utku Kağıtcı",
-			"-Endri Suknaj",
-			"-Rana Elbatanony",
-			"-Zeyad Khaled"
+    		"Ayşegül Gökçe",
+			"Aziz Utku Kağıtcı",
+			"Endri Suknaj",
+			"Rana Elbatanony",
+			"Zeyad Khaled"
 	};
 
     String[] mails = {
@@ -55,7 +55,7 @@ public class AboutActivity extends AppCompatActivity {
                 .isRTL(false)
                 .setDescription("evenU brings you all Bilkent events in a stylish and accessible way!")
                 //.setImage(R.drawable.about_logo)
-                .addGroup("Made with by")
+                .addGroup("Made with ♥ by")
                 .addItem(devs[0])
 				.addItem(devs[1])
 				.addItem(devs[2])
