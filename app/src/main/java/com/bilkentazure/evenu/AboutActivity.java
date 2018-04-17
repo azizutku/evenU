@@ -19,11 +19,11 @@ public class AboutActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     String[] names = {
-    		"Ayşegül Gökçe",
-			"Aziz Utku Kağıtcı",
-			"Endri Suknaj",
-			"Rana Elbatanony",
-			"Zeyad Khaled"
+    		"-Ayşegül Gökçe",
+			"-Aziz Utku Kağıtcı",
+			"-Endri Suknaj",
+			"-Rana Elbatanony",
+			"-Zeyad Khaled"
 	};
 
     String[] mails = {
@@ -44,7 +44,7 @@ public class AboutActivity extends AppCompatActivity {
 
 		mToolbar = findViewById(R.id.about_toolbar);
 		setSupportActionBar(mToolbar);
-		getSupportActionBar().setTitle("About page");
+		getSupportActionBar().setTitle("About");
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		RelativeLayout rlt = findViewById(R.id.about_rlt_content);
@@ -54,8 +54,7 @@ public class AboutActivity extends AppCompatActivity {
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setDescription("evenU brings you all Bilkent events in a stylish and accessible way!")
-               // .setImage(R.drawable.about_logo)
-                .addItem(new Element().setTitle("Version 1.0"))
+                //.setImage(R.drawable.about_logo)
                 .addGroup("Made with by")
                 .addItem(devs[0])
 				.addItem(devs[1])
@@ -66,6 +65,7 @@ public class AboutActivity extends AppCompatActivity {
                 .addEmail("bilkentazure@gmail.com")
                 .addGitHub("AzizUtku/evenU/")
                 .addPlayStore("com.bilkentazure.evenu")
+				.addItem(new Element().setTitle("Version 1.0"))
                 .create();
 
 		rlt.addView(aboutPage);
