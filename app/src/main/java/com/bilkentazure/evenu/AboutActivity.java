@@ -49,7 +49,7 @@ public class AboutActivity extends AppCompatActivity {
 
 		RelativeLayout rlt = findViewById(R.id.about_rlt_content);
 
-		setMailtoDev();
+		setMailOfDev();
 
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
@@ -73,7 +73,7 @@ public class AboutActivity extends AppCompatActivity {
 
     }
 
-	private void setMailtoDev(){
+	private void setMailOfDev(){
     	for(int i = 0; i < names.length; i++){
     		devs[i] = new Element();
     		devs[i].setTitle(names[i]);
