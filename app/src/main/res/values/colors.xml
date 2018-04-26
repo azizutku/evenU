@@ -6,7 +6,7 @@
     <color name="colorAccentSecondary">#cb2c2c</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="color40TransparentAccent">#66FF4081</color>
-    <color name="color60TransparentAccent">#99FF4081</color>
+    <color name="color60TransparentAccent">#99ff4081</color>
     <color name="colorUnselectedDot">#CCCCCC</color>
     <color name="tabTextColor">#CCFFFFFF</color>
     <color name="tabIndicatorColor">#FFFFFF</color>

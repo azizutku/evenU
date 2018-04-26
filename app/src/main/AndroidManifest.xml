@@ -35,8 +35,17 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ScannerActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme" />
     </application>
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
 
 </manifest>
