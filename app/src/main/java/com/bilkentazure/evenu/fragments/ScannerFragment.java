@@ -71,9 +71,11 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * Created by Zeyad Khaled on 4/21/2018.
+ * Created by Zeyad Khaled on 21/4/2018.
  * Scanner fragment where Android permission are being checked, and actions are taken
  * accordingly.
+ * @author Zeyad Khaled
+ * @version 21/4/2018
  */
 public class ScannerFragment extends Fragment {
 
@@ -89,6 +91,8 @@ public class ScannerFragment extends Fragment {
     private String userID;
     private String spreadsheetURL;
     private String uid;
+    private double security_check;
+    private String eventID;
     private FirebaseFirestore db;
     private boolean is_ge;
     private double ge;
@@ -101,18 +105,14 @@ public class ScannerFragment extends Fragment {
 
     /**
      *                          #@Checks Flow Chart@#
-     *                                                          |-> Check GE -> Update GE
-     * Check internet access -> Check EVENT_ID -> Check Timestamp -> Check Android_id_db -> Retrieve Attendee's details -> SendRequest
-     *                                                         |-> Add Android_id to Database
+     *                                                                                                                             |-> Check GE -> Update GE
+     * Check if QR is valid after regex split -> Check internet access -> Check EVENT_ID -> Check security_check -> Check Timestamp -> Check Android_id_db -> Retrieve Attendee's details -> SendRequest
+     *                                                                                                                            |-> Add Android_id to Database
      */
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-
-
-
-
 
         //Initializing  necessary properties
         processProgress = new ProgressDialog(getContext());
@@ -192,22 +192,13 @@ public class ScannerFragment extends Fragment {
             if( resultCode == RESULT_OK){
                 intentResult  = data.getStringExtra("result");
 
-                // TO DO
-               // security_code:event_id -> Split into array
-              //  retrieve security code for event_id [1] == security_code [0]
-
-
-                // Create 15 seconds Timer
-                // It creates QR with constant event_id and randomly generated security_code
-                // And updates security_code field in this event collection
-
-                // Create spreadsheet, Retrieve URL, Add it to the properties
-
                 /**
-                 * Checks flow
-                 * Check if internet
+                 *                          #####Checks flow#####
+                 * Check if QR is in correct format by checking regex split array size
+                 * If split array is valid > check if internet is available if there is then > ProcessQRResult()
                  * ProcessQRResult() method checks if eventID "intentResult" is valid or not
-                 * If it's valid > Call isTimeValid() if time of scan if between event time
+                 * If it's valid > then checks for the security_check code from QR and from database
+                 * If code is valid then > call isTimeValid() if time of scan if between event time
                  * Retrieve android_id_db  >  calls isScannedBefore() method
                  * isScannedBefore() checks if android_id_db from database equals the current android_id
                  * If it doesn't > isScannedBefore() is called
@@ -221,15 +212,28 @@ public class ScannerFragment extends Fragment {
                  * also progress bar disappear after result of progress***
                  */
 
-                if ( isConnectedToInternet()) {
-                    processQRResult(intentResult);
+                String[] result = intentResult.split("\\:");
+                if ( result.length == 2) {
+                    security_check = Double.parseDouble(result[0]);
+                    eventID = result[1];
+
+                    if ( isConnectedToInternet()) {
+                        processQRResult(eventID);
+                    } else {
+                        resultView.setTextColor(Color.RED);
+                        resultView.setText("Please connect to the internet");
+                    }
+
                 } else {
                     resultView.setTextColor(Color.RED);
-                    resultView.setText("Please connect to the internet");
+                    resultView.setText("Corrupt QR code");
                 }
+
 
                 }
             }
+
+            // If user clicked back without scanning QR code
             if (resultCode == RESULT_CANCELED) {
                 resultView.setTextColor(Color.RED);
                 resultView.setText("Scan was cancelled!");
@@ -250,17 +254,25 @@ public class ScannerFragment extends Fragment {
                     DocumentSnapshot snap = task.getResult();
                     if (snap.exists() && snap != null) {
 
-                        from_time = snap.getDate("from");
-                        to_time = snap.getDate("to");
+                        double check = snap.getDouble("security_check");
 
-                        if ( isTimeValid() ) {
-                            android_id_db = snap.getString("android_id");
-                            spreadsheetURL = snap.getString("spreadsheet");
-                            /**
-                             * Could put a check here if event won't have a permanent GE property
-                             */
-                            ge =  snap.getDouble("ge");
-                            isScannedBefore();
+                        if ( check == security_check ) {
+                            from_time = snap.getDate("from");
+                            to_time = snap.getDate("to");
+
+                            if ( isTimeValid() ) {
+                                android_id_db = snap.getString("android_id");
+                                spreadsheetURL = snap.getString("spreadsheet");
+                                /**
+                                 * Could put a check here if event won't have a permanent GE property
+                                 */
+                                ge =  snap.getDouble("ge");
+                                isScannedBefore();
+                            }
+                        } else {
+                            processProgress.dismiss();
+                            resultView.setTextColor(Color.RED);
+                            resultView.setText("Security check mismatch! Try again");
                         }
 
                     } else {
@@ -356,7 +368,7 @@ public class ScannerFragment extends Fragment {
      * Add current user android phone to this event
      */
     public void addAndroidIDToDatabase() {
-        db.collection("events").document(intentResult).update("android_id" , android_id);
+        db.collection("events").document(eventID).update("android_id" , android_id);
     }
 
 
@@ -416,7 +428,7 @@ public class ScannerFragment extends Fragment {
 
             try{
 
-                //App Script URL here
+                //App Script URL here -> It's code is found in commented out appScript() method
                 String scriptURL = "https://script.google.com/macros/s/AKfycbzCBqbQY_YX3GpXF8vVD8obru0DrUOUrbis4wIFTjwOTjbUIChA/exec";
                 URL url = new URL(scriptURL);
                 JSONObject postDataParams = new JSONObject();
@@ -578,6 +590,45 @@ public class ScannerFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /**
+     * Just a reference to the appScript I coded to process the spreadsheet and the attendee details
+     */
+    public void appScript() {
+
+//        function doGet(e){
+//
+//                var url = e.parameter.url;
+//        var ss = SpreadsheetApp.openByUrl([url]);
+//        var sheet = ss.getSheetByName("sheet1");
+//
+//        return insert(e,sheet);
+//
+//        }
+//
+//        function doPost(e){
+//                var url = e.parameter.url;
+//        var ss = SpreadsheetApp.openByUrl([url]);
+//        var sheet = ss.getSheetByName("sheet1");
+//        return insert(e,sheet);
+//
+//        }
+//
+//        function insert(e,sheet) {
+//
+//            var name = e.parameter.name;
+//            var email = e.parameter.email;
+//            var id = e.parameter.id;
+//            var d = new Date();
+//            var ctime =  d.toLocaleString();
+//
+//            sheet.appendRow([name, email, id ,ctime]);
+//
+//            return ContentService
+//                    .createTextOutput("Success")
+//                    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+//        }
     }
 }
 

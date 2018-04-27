@@ -1,7 +1,10 @@
 package com.bilkentazure.evenu;
 /**
- * Created by Zeyad Khaled on 4/21/2018.
- * This is QR scanning class where QR data is being decoded and processed.
+ * Created by Zeyad Khaled on 27/4/2018.
+ * This is QR scanning class where QR data is being decoded and sent to the ScannerFragment
+ * for processing.
+ * @author Zeyad Khaled
+ * @version 27/4/2018
  */
 
 import android.content.Intent;

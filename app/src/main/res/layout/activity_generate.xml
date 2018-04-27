@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by Zeyad Khaled on 27/04/18-->
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bilkentazure.evenu.Generate">
+
+
+    <include
+        android:id="@+id/generate_toolbar"
+        layout="@layout/app_bar_layout"/>
+
+    <ImageView
+        android:id="@+id/qr_view"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:layout_below="@id/generate_toolbar"
+        android:layout_marginBottom="149dp"
+        android:layout_marginTop="62dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/generate_toolbar"
+        app:layout_constraintVertical_bias="0.02"
+        app:srcCompat="@drawable/bg_round_button" />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,7 +1,10 @@
 package com.bilkentazure.evenu;
 
 /**
- * Created by Zeyad Khaled on 4/17/2018.
+ * Created by Zeyad Khaled on 17/4/2018.
+ * This class displays the about page
+ * @author Zeyad Khaled
+ * @version 17/4/2018
  */
 import android.content.Intent;
 import android.net.Uri;
