@@ -8,9 +8,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Button;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +28,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bilkentazure.evenu.Generate;
 import com.bilkentazure.evenu.LoginActivity;
 import com.bilkentazure.evenu.MainActivity;
 import com.bilkentazure.evenu.ScannerActivity;
@@ -92,18 +96,23 @@ public class ScannerFragment extends Fragment {
     private Date from_time;
     private Date to_time;
     private ProgressDialog processProgress;
+    Button generate;
 
 
     /**
      *                          #@Checks Flow Chart@#
-     *                                                          |--> Check GE -> Update GE
-     * Check EVENT_ID -> Check Timestamp --> Check Android_id_db --> Retrieve Attendee's details -> SendRequest
-     *                                                         |--> Add Android_id to Database
+     *                                                          |-> Check GE -> Update GE
+     * Check internet access -> Check EVENT_ID -> Check Timestamp -> Check Android_id_db -> Retrieve Attendee's details -> SendRequest
+     *                                                         |-> Add Android_id to Database
      */
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
+
+
+
+
 
         //Initializing  necessary properties
         processProgress = new ProgressDialog(getContext());
@@ -119,6 +128,15 @@ public class ScannerFragment extends Fragment {
         //Initialize view
         View view = inflater.inflate(R.layout.fragment_scanner, container, false);
         resultView = view.findViewById(R.id.textViewResult);
+
+        //Testing generate
+        generate = view.findViewById(R.id.generate_button);
+        generate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity() , Generate.class);
+                startActivity(intent);         }
+        });
 
         //Opening intent when scan button is being pressed and making necessary permission checks.
         qrScan = view.findViewById(R.id.scan_qr);
@@ -174,8 +192,20 @@ public class ScannerFragment extends Fragment {
             if( resultCode == RESULT_OK){
                 intentResult  = data.getStringExtra("result");
 
+                // TO DO
+               // security_code:event_id -> Split into array
+              //  retrieve security code for event_id [1] == security_code [0]
+
+
+                // Create 15 seconds Timer
+                // It creates QR with constant event_id and randomly generated security_code
+                // And updates security_code field in this event collection
+
+                // Create spreadsheet, Retrieve URL, Add it to the properties
+
                 /**
                  * Checks flow
+                 * Check if internet
                  * ProcessQRResult() method checks if eventID "intentResult" is valid or not
                  * If it's valid > Call isTimeValid() if time of scan if between event time
                  * Retrieve android_id_db  >  calls isScannedBefore() method
@@ -259,7 +289,7 @@ public class ScannerFragment extends Fragment {
         } else if ( current_time.before(from_time) )  {
             resultView.setTextColor(Color.RED);
             SimpleDateFormat df = new SimpleDateFormat("k:mm");
-            resultView.setText("Event will start at " + df.format(to_time));
+            resultView.setText("Event will start at " + df.format(from_time));
             processProgress.dismiss();
             return false;
 

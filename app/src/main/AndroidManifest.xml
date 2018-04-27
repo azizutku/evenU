@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bilkentazure.evenu">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,15 +40,11 @@
             android:label="@string/title_activity_about"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ScannerActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".Generate"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-
 
 </manifest>

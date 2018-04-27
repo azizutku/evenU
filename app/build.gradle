@@ -40,13 +40,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:15.0.0'
     implementation 'com.google.firebase:firebase-firestore:15.0.0'
 
-
-
     //About page
     implementation 'com.github.medyo:android-about-page:1.2.4'
 
     //QR Scanning
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
+
+    //QR Generating
+    implementation 'com.google.zxing:core:3.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
