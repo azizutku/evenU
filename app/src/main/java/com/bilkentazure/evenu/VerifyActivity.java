@@ -16,6 +16,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Created by Aziz Utku Kağıtcı on 16/04/2018
+ * This activity does verification processing.
+ * Unless user verify his/her email, don't go forward.
+ * @author Aziz Utku Kağıtcı
+ * @version 17/04/2018
+ */
 public class VerifyActivity extends AppCompatActivity {
 
 	private static final String TAG = "VerifyActivity";

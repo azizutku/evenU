@@ -17,6 +17,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Created by Aziz Utku Kağıtcı on 17/04/2018
+ * This activity is for forgetting password.
+ * It checks database and do forget password processing.
+ * @author Aziz Utku Kağıtcı
+ * @version 17/04/2018
+ */
 public class ForgotPassActivity extends AppCompatActivity {
 
 	private Toolbar mToolbar;

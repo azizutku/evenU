@@ -1,6 +1,7 @@
 package com.bilkentazure.evenu;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,10 +11,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bilkentazure.evenu.adapters.PagerAdapter;
+import com.bilkentazure.evenu.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
+/**
+ * Created by Aziz Utku Kağıtcı on 16/04/2018
+ * This is main activitiy of app.
+ * It includes all fragments.
+ * It checks whether there is current user who already signed in.
+ * If there is no user, it opens StartActivity.
+ * If there is user but user's emails not verified, it opens VerifyActivity.
+ * @author Aziz Utku Kağıtcı
+ * @version 17/04/2018
+ */
 public class MainActivity extends AppCompatActivity {
 
 
@@ -27,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 	private ViewPager viewPager;
 
 	private Toolbar mToolbar;
+
+	public static User userModel;
 
 	final int[] ICONS_OF_TABS = new int[]{
 			R.drawable.ic_tab_home,
@@ -53,60 +73,11 @@ public class MainActivity extends AppCompatActivity {
 
 		updateState(mCurrentUser);
 
-		pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-		tabLayout = findViewById(R.id.main_tab_layout);
-		viewPager = findViewById(R.id.main_view_pager);
-
-		viewPager.setAdapter(pagerAdapter);
-		tabLayout.setupWithViewPager(viewPager);
-
-		for(int i = 0; i < tabLayout.getTabCount(); i++) {
-			tabLayout.getTabAt(i).setIcon(ICONS_OF_TABS[i]);
-		}
-
-
-		tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-			@Override
-			public void onTabSelected(TabLayout.Tab tab) {
-
-				switch (tabLayout.getSelectedTabPosition()){
-
-					case 0:
-						getSupportActionBar().setTitle(" Newsfeed");
-						break;
-					case 1:
-						getSupportActionBar().setTitle(" QR Scanner");
-						break;
-					case 2:
-						getSupportActionBar().setTitle(" My Account");
-						break;
-					case 3:
-						getSupportActionBar().setTitle(" Categorizes");
-						break;
-					case 4:
-						getSupportActionBar().setTitle(" My Events");
-						break;
-					default:
-						getSupportActionBar().setTitle(" evenU");
-
-
-				}
-			}
-
-			@Override
-			public void onTabUnselected(TabLayout.Tab tab) {
-
-			}
-
-			@Override
-			public void onTabReselected(TabLayout.Tab tab) {
-
-			}
-		});
 
 
 
 	}
+
 
 	private void updateState(FirebaseUser user){
 
@@ -116,7 +87,95 @@ public class MainActivity extends AppCompatActivity {
 		else {
 			if(!user.isEmailVerified()){
 				sendToVerify();
+			} else {
+
+
+				db.collection("users").document(mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+					@Override
+					public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+						if (task.isSuccessful()){
+
+							DocumentSnapshot documentSnapshot = task.getResult();
+
+							if(documentSnapshot != null){
+
+								userModel = documentSnapshot.toObject(User.class);
+
+
+							}
+
+						}
+
+						pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+						tabLayout = findViewById(R.id.main_tab_layout);
+						viewPager = findViewById(R.id.main_view_pager);
+
+						viewPager.setAdapter(pagerAdapter);
+						tabLayout.setupWithViewPager(viewPager);
+
+						for(int i = 0; i < tabLayout.getTabCount(); i++) {
+							tabLayout.getTabAt(i).setIcon(ICONS_OF_TABS[i]);
+						}
+
+						tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+							@Override
+							public void onTabSelected(TabLayout.Tab tab) {
+
+								switch (tabLayout.getSelectedTabPosition()){
+
+									case 0:
+										getSupportActionBar().setTitle(" Newsfeed");
+										break;
+									case 1:
+										getSupportActionBar().setTitle(" QR Scanner");
+										break;
+									case 2:
+										getSupportActionBar().setTitle(" My Account");
+										break;
+									case 3:
+										getSupportActionBar().setTitle(" Categorizes");
+										break;
+									case 4:
+										getSupportActionBar().setTitle(" My Events");
+										break;
+									default:
+										getSupportActionBar().setTitle(" evenU");
+
+
+								}
+							}
+
+							@Override
+							public void onTabUnselected(TabLayout.Tab tab) {
+
+							}
+
+							@Override
+							public void onTabReselected(TabLayout.Tab tab) {
+
+							}
+						});
+
+
+					}
+				});
+
+
+
+						/*.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+							@Override
+							public void onSuccess(DocumentSnapshot documentSnapshot) {
+								if(documentSnapshot != null){
+
+									userModel = documentSnapshot.toObject(User.class);
+
+								}
+							}
+						});*/
+
 			}
+
+
 		}
 
 	}

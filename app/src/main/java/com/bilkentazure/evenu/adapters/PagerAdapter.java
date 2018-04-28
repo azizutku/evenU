@@ -10,6 +10,12 @@ import com.bilkentazure.evenu.fragments.ListFragment;
 import com.bilkentazure.evenu.fragments.ProfileFragment;
 import com.bilkentazure.evenu.fragments.ScannerFragment;
 
+/**
+ * Created by Aziz Utku Kağıtcı on 17/04/2018
+ * It is adapter for fragments.
+ * @author Aziz Utku Kağıtcı
+ * @version 17/04/2018
+ */
 public class PagerAdapter extends FragmentPagerAdapter {
 
 	public PagerAdapter(FragmentManager fragmentManager){

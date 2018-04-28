@@ -23,6 +23,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+/**
+ * Created by Aziz Utku Kağıtcı on 17/04/2018
+ * This activity is for logging.
+ * It checks database and do Login processing.
+ * @author Aziz Utku Kağıtcı
+ * @version 17/04/2018
+ */
 public class LoginActivity extends AppCompatActivity {
 
 	private static final String TAG = "LoginActivity";

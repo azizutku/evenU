@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import com.bilkentazure.evenu.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Aziz Utku Kağıtcı on 17/04/2018
+ * Fragment for Categorized Events
+ * @author Aziz Utku Kağıtcı
+ * @version 17/04/2018
  */
 public class ProfileFragment extends Fragment {
 

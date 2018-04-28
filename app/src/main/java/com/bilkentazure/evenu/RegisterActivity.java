@@ -25,6 +25,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.util.ArrayList;
+
+/**
+ * Created by Aziz Utku Kağıtcı on 17/04/2018
+ * This activity is for registering.
+ * It checks database and do registration processing.
+ * @author Aziz Utku Kağıtcı
+ * @version 17/04/2018
+ */
 public class RegisterActivity extends AppCompatActivity {
 
 	private static final String TAG = "RegisterActivity";
@@ -104,12 +113,38 @@ public class RegisterActivity extends AppCompatActivity {
 			@Override
 			public void onSuccess(AuthResult authResult) {
 
-				User user = new User(email,
-						schoolID,
+				/*private String schoolId;
+				private String email;
+				private String name;
+				private String department;
+				private String image;
+				private String thumbImage;
+				private String tokenID;
+				private int geTotal;
+				private boolean takeGe250;
+				private boolean takeGe251;
+				ArrayList<String> attendedEvents;
+				ArrayList<String> favoriteEvents;
+				ArrayList<String> subscribedDepartments;
+				ArrayList<String> subscribeInterests;
+				ArrayList<String> subscribedClubs;*/
+
+
+				User user = new User(schoolID,
+						email,
 						name,
+						"Department",
 						"default",
 						"default",
-						FirebaseInstanceId.getInstance().getToken());
+						FirebaseInstanceId.getInstance().getToken(),
+						0,
+						false,
+						false,
+						new ArrayList<String>(),
+						new ArrayList<String>(),
+						new ArrayList<String>(),
+						new ArrayList<String>(),
+						new ArrayList<String>());
 
 				db.collection("users")
 						.document(mAuth.getCurrentUser().getUid())

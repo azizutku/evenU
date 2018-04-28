@@ -12,7 +12,11 @@ import com.bilkentazure.evenu.adapters.SliderAdapter;
 
 
 /**
- * Created by azizutku on 20.03.2018.
+ * Created by Aziz Utku Kağıtcı on 16/04/2018
+ * This activity is start activity of application.
+ * It directs user to Login, Register and Forgot Password activities.
+ * @author Aziz Utku Kağıtcı
+ * @version 17/04/2018
  */
 public class StartActivity extends AppCompatActivity {
 

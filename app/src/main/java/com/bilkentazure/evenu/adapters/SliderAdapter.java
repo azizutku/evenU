@@ -12,7 +12,11 @@ import android.widget.TextView;
 import com.bilkentazure.evenu.R;
 
 /**
- * Created by azizutku on 20.03.2018.
+ * Created by Aziz Utku Kağıtcı on 16/04/2018
+ * It is adapter for onboarding screen
+ * In StartActivity, users can swipe through the application information.
+ * @author Aziz Utku Kağıtcı
+ * @version 16/04/2018
  */
 public class SliderAdapter extends PagerAdapter {
 

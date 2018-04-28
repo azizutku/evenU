@@ -33,7 +33,7 @@ public class Event{
 
 	}
 
-	public Event(String id, String club_id, String name, String image, String description, String location, Date from, Date to, int ge_point, ArrayList<String> tags, ArrayList<String> keywords, String qr_id, String spreadsheet, String security_check) {
+	public Event( String id, String club_id, String name, String image, String description, String location, Date from, Date to, int ge_point, ArrayList<String> tags, ArrayList<String> keywords, String qr_id, String spreadsheet, String security_check) {
 		this.id = id;
 		this.club_id = club_id;
 		this.name = name;

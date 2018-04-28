@@ -2,8 +2,9 @@ package com.bilkentazure.evenu;
 
 /**
  * Created by Zeyad Khaled on 17/4/2018.
+ * Edited by Aziz Utku Kağıtcı on 17/04.2018
  * This class displays the about page
- * @author Zeyad Khaled
+ * @author Zeyad Khaled, Aziz Utku Kağıtcı
  * @version 17/4/2018
  */
 import android.content.Intent;
