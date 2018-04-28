@@ -7,14 +7,15 @@ import java.util.Map;
 /**
  * Created by Endri Suknaj on 27/04/2018.
  * Edited by Aziz Utku Kağıtcı on 28/04/2018
- * This class is eventmodel
- * @author Endri Suknaj
+ * This class is event model
+ * @author Endri Suknaj, Aziz Utku Kağıtcı
  */
 public class Event{
 
 	private String id;
 	private String club_id;
 	private String name;
+	private String image;
 	private String description;
 	private String location;
 	private Date from;
@@ -31,10 +32,11 @@ public class Event{
 
 	}
 
-	public Event(String id, String club_id, String name, String description, String location, Date from, Date to, int ge_point, Map<String, Boolean> tags, Map<String, Boolean> keywords, String qr_id, String spreadsheet, String security_check) {
+	public Event(String id, String club_id, String name, String image, String description, String location, Date from, Date to, int ge_point, Map<String, Boolean> tags, Map<String, Boolean> keywords, String qr_id, String spreadsheet, String security_check) {
 		this.id = id;
 		this.club_id = club_id;
 		this.name = name;
+		this.image = image;
 		this.description = description;
 		this.location = location;
 		this.from = from;
@@ -72,6 +74,14 @@ public class Event{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getDescription() {
@@ -156,12 +166,14 @@ public class Event{
 
 	//methods
 
+
 	@Override
 	public String toString() {
 		return "Event{" +
 				"id='" + id + '\'' +
 				", club_id='" + club_id + '\'' +
 				", name='" + name + '\'' +
+				", image='" + image + '\'' +
 				", description='" + description + '\'' +
 				", location='" + location + '\'' +
 				", from=" + from +
