@@ -1,5 +1,6 @@
 package com.bilkentazure.evenu.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -21,8 +22,8 @@ public class Event{
 	private Date from;
 	private Date to;
 	private int ge_point;
-	private Map<String,Boolean> tags;
-	private Map<String,Boolean> keywords;
+	private ArrayList<String> tags;
+	private ArrayList<String> keywords;
 	private String qr_id;
 	private String spreadsheet;
 	private String security_check;
@@ -32,7 +33,7 @@ public class Event{
 
 	}
 
-	public Event(String id, String club_id, String name, String image, String description, String location, Date from, Date to, int ge_point, Map<String, Boolean> tags, Map<String, Boolean> keywords, String qr_id, String spreadsheet, String security_check) {
+	public Event(String id, String club_id, String name, String image, String description, String location, Date from, Date to, int ge_point, ArrayList<String> tags, ArrayList<String> keywords, String qr_id, String spreadsheet, String security_check) {
 		this.id = id;
 		this.club_id = club_id;
 		this.name = name;
@@ -124,19 +125,19 @@ public class Event{
 		this.ge_point = ge_point;
 	}
 
-	public Map<String, Boolean> getTags() {
+	public ArrayList<String> getTags() {
 		return tags;
 	}
 
-	public void setTags(Map<String, Boolean> tags) {
+	public void setTags(ArrayList<String> tags) {
 		this.tags = tags;
 	}
 
-	public Map<String, Boolean> getKeywords() {
+	public ArrayList<String> getKeywords() {
 		return keywords;
 	}
 
-	public void setKeywords(Map<String, Boolean> keywords) {
+	public void setKeywords(ArrayList<String> keywords) {
 		this.keywords = keywords;
 	}
 
