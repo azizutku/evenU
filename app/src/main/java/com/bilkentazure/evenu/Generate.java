@@ -31,8 +31,8 @@ public class Generate extends AppCompatActivity {
     private Toolbar mToolbar;
     private ImageView viewQR;
     private FirebaseFirestore db;
-    private int security_check;
-    final private String eventID = "event1"; // Shall be retrieved from calling intent in evenU club class
+    private String security_check;
+    final private String eventID = "BFnxKhJMM5wqo2dMmF2l"; // Shall be retrieved from calling intent in evenU club class
     private Bitmap generatedQR;
     private CountDownTimer generationTimer;
 
@@ -135,8 +135,8 @@ public class Generate extends AppCompatActivity {
      * Update security_check field in database
      */
     public void updateSecurityCheck() {
-        security_check = (int) (Math.random() * 1000000);
-        db.collection("events").document(eventID).update("security_check", security_check);
+        security_check = (int) (Math.random() * 1000000) + "";
+        db.collection("_events").document(eventID).update("security_check", security_check);
     }
 
 }
