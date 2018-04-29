@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bilkentazure.evenu.MainActivity;
@@ -240,7 +241,8 @@ public class FavFragment extends Fragment {
 							values = new ContentValues();
 							//	Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
 
-
+							Toast.makeText(getContext(), "You will receive notifications for this event",
+									Toast.LENGTH_LONG).show();
 						}
 
 

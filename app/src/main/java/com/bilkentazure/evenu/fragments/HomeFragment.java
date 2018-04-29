@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bilkentazure.evenu.MainActivity;
 import com.bilkentazure.evenu.R;
@@ -244,7 +245,8 @@ public class HomeFragment extends Fragment {
 							values = new ContentValues();
 						//	Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
 
-
+							Toast.makeText(getContext(), "You will receive notifications for this event",
+									Toast.LENGTH_LONG).show();
 						}
 
 
