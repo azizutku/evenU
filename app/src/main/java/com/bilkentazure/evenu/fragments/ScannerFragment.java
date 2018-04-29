@@ -91,7 +91,7 @@ public class ScannerFragment extends Fragment {
     private String userID;
     private String spreadsheetURL;
     private String uid;
-    private double security_check;
+    private String security_check;
     private String eventID;
     private FirebaseFirestore db;
     private boolean is_ge;
@@ -120,6 +120,7 @@ public class ScannerFragment extends Fragment {
         android_id = Settings.Secure.getString(getContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
+
         //Initialize Firebase userID
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -128,6 +129,7 @@ public class ScannerFragment extends Fragment {
         //Initialize view
         View view = inflater.inflate(R.layout.fragment_scanner, container, false);
         resultView = view.findViewById(R.id.textViewResult);
+
 
         //Testing generate
         generate = view.findViewById(R.id.generate_button);
@@ -196,7 +198,7 @@ public class ScannerFragment extends Fragment {
                  *                          #####Checks flow#####
                  * Check if QR is in correct format by checking regex split array size
                  * If split array is valid > check if internet is available if there is then > ProcessQRResult()
-                 * ProcessQRResult() method checks if eventID "intentResult" is valid or not
+                 * ProcessQRResult() method checks if eventID is valid or not
                  * If it's valid > then checks for the security_check code from QR and from database
                  * If code is valid then > call isTimeValid() if time of scan if between event time
                  * Retrieve android_id_db  >  calls isScannedBefore() method
@@ -214,7 +216,7 @@ public class ScannerFragment extends Fragment {
 
                 String[] result = intentResult.split("\\:");
                 if ( result.length == 2) {
-                    security_check = Double.parseDouble(result[0]);
+                    security_check = result[0];
                     eventID = result[1];
 
                     if ( isConnectedToInternet()) {
@@ -247,14 +249,14 @@ public class ScannerFragment extends Fragment {
     public void processQRResult ( String eventID) {
         showProgress(); // Display progress
 
-        db.collection("events").document(eventID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("_events").document(eventID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot snap = task.getResult();
                     if (snap.exists() && snap != null) {
 
-                        double check = snap.getDouble("security_check");
+                        String check = snap.getString("security_check");
 
                         if ( check == security_check ) {
                             from_time = snap.getDate("from");
@@ -266,7 +268,7 @@ public class ScannerFragment extends Fragment {
                                 /**
                                  * Could put a check here if event won't have a permanent GE property
                                  */
-                                ge =  snap.getDouble("ge");
+                                ge =  snap.getDouble("ge_point");
                                 isScannedBefore();
                             }
                         } else {
@@ -322,7 +324,7 @@ public class ScannerFragment extends Fragment {
 
             attendeeDetails(); // Retrieve attendeeDetails > Spreadsheet > SendRequest
             addAndroidIDToDatabase(); // Add current android ID in this event details
-            resultView.setTextColor(Color.GREEN);
+            resultView.setTextColor(getResources().getColor(android.R.color.holo_green_light));
             resultView.setText("Scan success!");
             processProgress.dismiss();
 
@@ -345,11 +347,11 @@ public class ScannerFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot snap = task.getResult();
                     if (snap.exists() && snap != null) {
-                        userID = snap.getString("schoolID");
+                        userID = snap.getString("schoolId");
                         userName = snap.getString("name");
                         userEmail = snap.getString("email");
-                        ge_total = snap.getDouble("ge_total");
-                        is_ge = snap.getBoolean("is_ge");
+                        ge_total = snap.getDouble("geTotal");
+                        is_ge = snap.getBoolean("takeGe250"); // needs fix
 
                         isTakingGE();
                         new SendRequest().execute();
@@ -368,7 +370,7 @@ public class ScannerFragment extends Fragment {
      * Add current user android phone to this event
      */
     public void addAndroidIDToDatabase() {
-        db.collection("events").document(eventID).update("android_id" , android_id);
+        db.collection("_events").document(eventID).update("android_id" , android_id);
     }
 
 
@@ -385,7 +387,7 @@ public class ScannerFragment extends Fragment {
      * Update GE points by adding current GE points user have and new amount that event gave
      */
     public void updateGE() {
-        db.collection("users").document(uid).update("ge_total" , ge_total + ge);
+        db.collection("users").document(uid).update("geTotal" , ge_total + ge);
     }
 
 
@@ -429,7 +431,7 @@ public class ScannerFragment extends Fragment {
             try{
 
                 //App Script URL here -> It's code is found in commented out appScript() method
-                String scriptURL = "https://script.google.com/macros/s/AKfycbzCBqbQY_YX3GpXF8vVD8obru0DrUOUrbis4wIFTjwOTjbUIChA/exec";
+                String scriptURL = "https://script.google.com/macros/s/AKfycbzlHlMhHCe0TsmwS7kzcU0upRxqTzVXAFTIqmBfDt-3Kj2ok01K/exec";
                 URL url = new URL(scriptURL);
                 JSONObject postDataParams = new JSONObject();
 
@@ -438,6 +440,7 @@ public class ScannerFragment extends Fragment {
                 postDataParams.put("name", userName);
                 postDataParams.put("email", userEmail);
                 postDataParams.put("id", userID);
+                postDataParams.put("ge", is_ge);
                 postDataParams.put("url", spreadsheetURL);
 
 
