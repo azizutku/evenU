@@ -17,7 +17,7 @@ import com.bilkentazure.evenu.R;
  * @author Aziz Utku Kağıtcı
  * @version 17/04/2018
  */
-public class ListFragment extends Fragment {
+public class 	ListFragment extends Fragment {
 
 
 	public ListFragment() {
