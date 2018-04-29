@@ -1,9 +1,15 @@
 package com.bilkentazure.evenu.fragments;
 
-
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -47,7 +53,7 @@ public class HomeFragment extends Fragment {
 	private FirebaseAuth mAuth;
 	private FirebaseUser mUser;
 	private FirestoreRecyclerAdapter mFirestoreRecyclerAdapter;
-
+	private static final int REQUEST_CALENDAR = 0;
 	private RecyclerView mRecyclerEvent;
 
 	public HomeFragment() {
@@ -77,9 +83,9 @@ public class HomeFragment extends Fragment {
 		//addEvent();
 
 		Query query = db.collection("_events")
-				.orderBy("from",Query.Direction.ASCENDING);
+				.orderBy("from", Query.Direction.ASCENDING);
 
-		FirestoreRecyclerOptions<Event> options =  new FirestoreRecyclerOptions.Builder<Event>()
+		FirestoreRecyclerOptions<Event> options = new FirestoreRecyclerOptions.Builder<Event>()
 				.setQuery(query, Event.class)
 				.build();
 
@@ -91,7 +97,7 @@ public class HomeFragment extends Fragment {
 				final String id = event.getId();
 				String club_id = event.getClub_id();
 				String name = event.getName();
-			    String image = event.getImage();
+				String image = event.getImage();
 				String description = event.getDescription();
 				String location = event.getLocation();
 				Date from = event.getFrom();
@@ -104,7 +110,6 @@ public class HomeFragment extends Fragment {
 				String security_check = event.getSecurity_check();
 
 
-
 				holder.setTitle(name);
 				holder.setInfo(description);
 				holder.setImage(image);
@@ -112,12 +117,13 @@ public class HomeFragment extends Fragment {
 				holder.setDate(from);
 
 
-				if(MainActivity.userModel != null){
+				if (MainActivity.userModel != null) {
 
 					ArrayList<String> favoriteEvents = MainActivity.userModel.getFavoriteEvents();
 
-					for(String event_id: favoriteEvents){
-						if(event_id.equals(id)){
+					for (String event_id : favoriteEvents) {
+
+						if (event_id.equals(id)) {
 							holder.btnFav.setImageResource(R.drawable.ic_favorite_selected);
 						}
 					}
@@ -129,7 +135,7 @@ public class HomeFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 
-						if(MainActivity.userModel != null){
+						if (MainActivity.userModel != null) {
 							ArrayList<String> favoriteEvents = MainActivity.userModel.getFavoriteEvents();
 
 							boolean isPresent = false;
@@ -137,7 +143,7 @@ public class HomeFragment extends Fragment {
 							for (Iterator<String> iterator = favoriteEvents.iterator(); iterator.hasNext(); ) {
 								String value = iterator.next();
 
-								if(value.equals(id)){
+								if (value.equals(id)) {
 
 									//FIXME add success listener
 									iterator.remove();
@@ -152,7 +158,7 @@ public class HomeFragment extends Fragment {
 
 							}
 
-							if(!isPresent){
+							if (!isPresent) {
 								favoriteEvents.add(id);
 								MainActivity.userModel.setFavoriteEvents(favoriteEvents);
 								holder.btnFav.setImageResource(R.drawable.ic_favorite_selected);
@@ -168,7 +174,7 @@ public class HomeFragment extends Fragment {
 				holder.btnShare.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\nH:m");
+						DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\n 'Time: ' H:m");
 						String date = dateFormat.format(event.getFrom());
 						Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 						intent.setType("text/plain");
@@ -184,10 +190,69 @@ public class HomeFragment extends Fragment {
 					}
 				});
 
-				//TODO Add btnNotify onClickListener to buttons
+				// Added by Zeyad on 30/4/18
+				holder.btnNotify.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						//Properties
+						long calID = 1;
+						long startMillis = 0;
+						long endMillis = 0;
 
+						//Initiate properties
+						startMillis = event.getFrom().getTime();
+						endMillis = event.getTo().getTime();
+						ContentResolver cr = getContext().getContentResolver();
+						ContentValues values = new ContentValues();
+
+						//Populate the event with needed information
+						values.put(CalendarContract.Events.DTSTART, startMillis);
+						values.put(CalendarContract.Events.DTEND, endMillis);
+						values.put(CalendarContract.Events.TITLE, event.getName());
+						values.put(CalendarContract.Events.DESCRIPTION, event.getDescription());
+						values.put(CalendarContract.Events.CALENDAR_ID, calID);
+						values.put(CalendarContract.Events.EVENT_LOCATION, event.getLocation());
+						values.put(CalendarContract.Events.ALL_DAY, false);
+						values.put(CalendarContract.Events.HAS_ALARM, 1);
+						values.put(CalendarContract.Events.EVENT_TIMEZONE, "Turkey");
+
+						//Check and ask for permissions
+						if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+
+							ActivityCompat.requestPermissions(getActivity() , new String[]{Manifest.permission.WRITE_CALENDAR} , REQUEST_CALENDAR );
+
+						} else if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
+								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+
+							//Insert event
+							Uri event = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+
+							//Set reminder for given event
+							long notifyID = Long.parseLong( event.getLastPathSegment());
+							ContentValues reminders = new ContentValues();
+							reminders.put(CalendarContract.Reminders.EVENT_ID, notifyID);
+							reminders.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+							reminders.put(CalendarContract.Reminders.MINUTES,60);
+							Uri uri2 = cr.insert(CalendarContract.Reminders.CONTENT_URI, reminders);
+
+							//Need a collection for notification events in user collection to retrieve set events
+							holder.btnNotify.setImageResource(R.drawable.ic_notifications_active);
+
+							//Code to remove event if button is pressed again, notifyID needs to be saved in Database however
+							cr = getContext().getContentResolver();
+							values = new ContentValues();
+						//	Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
+
+
+						}
+
+
+					}
+				});
 
 			}
+
 
 			@Override
 			public EventHolder onCreateViewHolder(ViewGroup group, int i) {
@@ -204,6 +269,8 @@ public class HomeFragment extends Fragment {
 
 		return view;
 	}
+
+
 
 	public static class EventHolder extends RecyclerView.ViewHolder {
 

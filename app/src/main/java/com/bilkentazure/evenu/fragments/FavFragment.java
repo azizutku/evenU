@@ -1,8 +1,15 @@
 package com.bilkentazure.evenu.fragments;
 
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -45,7 +52,7 @@ public class FavFragment extends Fragment {
 	private FirebaseAuth mAuth;
 	private FirebaseUser mUser;
 	private FirestoreRecyclerAdapter mFirestoreRecyclerAdapter;
-
+	private static final int REQUEST_CALENDAR = 0;
 	private RecyclerView mRecyclerEvent;
 
 	public FavFragment() {
@@ -160,7 +167,7 @@ public class FavFragment extends Fragment {
 						holder.btnShare.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\nH:m");
+								DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\n 'Time: 'H:m");
 								String date = dateFormat.format(event.getFrom());
 								Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 								intent.setType("text/plain");
@@ -178,7 +185,67 @@ public class FavFragment extends Fragment {
 					}
 				});
 
-				//TODO Add btnNotify onClickListener to buttons
+
+				// Added by Zeyad on 30/4/18
+				holder.btnNotify.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						//Properties
+						long calID = 1;
+						long startMillis = 0;
+						long endMillis = 0;
+
+						//Initiate properties
+						startMillis = event.getFrom().getTime();
+						endMillis = event.getTo().getTime();
+						ContentResolver cr = getContext().getContentResolver();
+						ContentValues values = new ContentValues();
+
+						//Populate the event with needed information
+						values.put(CalendarContract.Events.DTSTART, startMillis);
+						values.put(CalendarContract.Events.DTEND, endMillis);
+						values.put(CalendarContract.Events.TITLE, event.getName());
+						values.put(CalendarContract.Events.DESCRIPTION, event.getDescription());
+						values.put(CalendarContract.Events.CALENDAR_ID, calID);
+						values.put(CalendarContract.Events.EVENT_LOCATION, event.getLocation());
+						values.put(CalendarContract.Events.ALL_DAY, false);
+						values.put(CalendarContract.Events.HAS_ALARM, 1);
+						values.put(CalendarContract.Events.EVENT_TIMEZONE, "Turkey");
+
+						//Check and ask for permissions
+						if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+
+							ActivityCompat.requestPermissions(getActivity() , new String[]{Manifest.permission.WRITE_CALENDAR} , REQUEST_CALENDAR );
+
+						} else if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
+								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+
+							//Insert event
+							Uri event = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+
+							//Set reminder for given event
+							long notifyID = Long.parseLong( event.getLastPathSegment());
+							ContentValues reminders = new ContentValues();
+							reminders.put(CalendarContract.Reminders.EVENT_ID, notifyID);
+							reminders.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+							reminders.put(CalendarContract.Reminders.MINUTES,60);
+							Uri uri2 = cr.insert(CalendarContract.Reminders.CONTENT_URI, reminders);
+
+							//Need a collection for notification events in user collection to retrieve set events
+							holder.btnNotify.setImageResource(R.drawable.ic_notifications_active);
+
+							//Code to remove event if button is pressed again, notifyID needs to be saved in Database however
+							cr = getContext().getContentResolver();
+							values = new ContentValues();
+							//	Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
+
+
+						}
+
+
+					}
+				});
 
 
 			}
