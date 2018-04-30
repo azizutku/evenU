@@ -62,7 +62,9 @@ import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.CountDownLatch;
 import javax.net.ssl.HttpsURLConnection;
@@ -84,7 +86,7 @@ public class ScannerFragment extends Fragment {
     private ImageButton qrScan;
     private TextView resultView;
     private String android_id;
-    private String android_id_db;
+    private String android_id_db; //migrated
     private String intentResult;
     private String userEmail;
     private String userName;
@@ -200,11 +202,11 @@ public class ScannerFragment extends Fragment {
                  * If split array is valid > check if internet is available if there is then > ProcessQRResult()
                  * ProcessQRResult() method checks if eventID is valid or not
                  * If it's valid > then checks for the security_check code from QR and from database
-                 * If code is valid then > call isTimeValid() if time of scan if between event time
-                 * Retrieve android_id_db  >  calls isScannedBefore() method
-                 * isScannedBefore() checks if android_id_db from database equals the current android_id
-                 * If it doesn't > isScannedBefore() is called
-                 * If not scanned before > call attendeeDetails() which returns all user's details
+                 * If code is valid then > call isTimeValid() if time of scan is between event time
+                 * Calls isScannedBefore() method
+                 * isScannedBefore() checks if exist a field in subcollection attendees with user's android id
+                 * If it doesn't > Scan continues with success and a field is created in the attendees subcollection
+                 * Then while success > call attendeeDetails() which returns all user's details
                  * If all user Details aren't null > it gets gePoints and updates them
                  * Then > it call's sendRequest().execute()
                  * SendRequest class checks if Http request was correct
@@ -244,6 +246,9 @@ public class ScannerFragment extends Fragment {
 
     /**
      * Checks if eventID is valid or not
+     * If valid, checks security code
+     * If valid, checks time
+     * If valid, sends to isScannedBefore() method
      * @param eventID is the event ID
      */
     public void processQRResult ( String eventID) {
@@ -258,17 +263,20 @@ public class ScannerFragment extends Fragment {
 
                         String check = snap.getString("security_check");
 
-                        if ( check == security_check ) {
+                        if ( check.equals(security_check) ) {
+
                             from_time = snap.getDate("from");
                             to_time = snap.getDate("to");
 
                             if ( isTimeValid() ) {
-                                android_id_db = snap.getString("android_id");
+                                //android_id_db = snap.getString("android_id"); Migrated
+
                                 spreadsheetURL = snap.getString("spreadsheet");
                                 /**
                                  * Could put a check here if event won't have a permanent GE property
                                  */
                                 ge =  snap.getDouble("ge_point");
+
                                 isScannedBefore();
                             }
                         } else {
@@ -316,28 +324,48 @@ public class ScannerFragment extends Fragment {
     }
 
     /**
-     * Checks if android_id_db is equal to current android_id  or not, if not it executes a chain of
-     * methods.
+     * Checks if there exists in this event collection a field in the  attendees sub_Collection with the current users'
+     * android id.
+     * If exists > Scanning fails
+     * If doesn't > Scan success and a field with current user's android_id is created and his details are added there.
      */
     public void isScannedBefore() {
-        if ( !android_id_db.equals(android_id)) {
+        db.collection("_events").document(eventID).collection("attendees").document(android_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
 
-            attendeeDetails(); // Retrieve attendeeDetails > Spreadsheet > SendRequest
-            addAndroidIDToDatabase(); // Add current android ID in this event details
-            resultView.setTextColor(getResources().getColor(android.R.color.holo_green_light));
-            resultView.setText("Scan success!");
-            processProgress.dismiss();
+                    DocumentSnapshot snap = task.getResult();
 
-        } else {
-            resultView.setTextColor(Color.RED);
-            resultView.setText("THIS EVENT HAS BEEN SCANNED BEFORE");
-            processProgress.dismiss();
+                    if (snap.exists() && snap != null) {
 
-        }
+                        resultView.setTextColor(Color.RED);
+                        resultView.setText("THIS EVENT HAS BEEN SCANNED BEFORE");
+                        processProgress.dismiss();
+
+                    } else {
+                        attendeeDetails(); // Retrieve attendeeDetails > Spreadsheet > SendRequest
+                        addAndroidIDToDatabase(); // Add current android ID in this event details
+                        resultView.setTextColor(getResources().getColor(android.R.color.holo_green_light));
+                        resultView.setText("Scan success!");
+                        processProgress.dismiss();
+                    }
+
+                } else {
+                    attendeeDetails(); // Retrieve attendeeDetails > Spreadsheet > SendRequest
+                    addAndroidIDToDatabase(); // Add current android ID in this event details
+                    resultView.setTextColor(getResources().getColor(android.R.color.holo_green_light));
+                    resultView.setText("Scan success!");
+                    processProgress.dismiss();
+                }
+            }
+        });
+
     }
 
     /**
      * Call Firestore and retrieve data from users collection
+     * //Future upgrade by using user model instead of database queries.
      */
     public void attendeeDetails()  {
         // Entering users collection to retrieve the user details
@@ -370,7 +398,12 @@ public class ScannerFragment extends Fragment {
      * Add current user android phone to this event
      */
     public void addAndroidIDToDatabase() {
-        db.collection("_events").document(eventID).update("android_id" , android_id);
+        Map<String,String> atteendesFields = new HashMap<>();
+        atteendesFields.put("name", MainActivity.userModel.getName());
+        atteendesFields.put("email", MainActivity.userModel.getEmail());
+        atteendesFields.put("schoolID", MainActivity.userModel.getSchoolId());
+        db.collection("_events").document(eventID).collection("attendees").document(android_id).set(atteendesFields);
+
     }
 
 
