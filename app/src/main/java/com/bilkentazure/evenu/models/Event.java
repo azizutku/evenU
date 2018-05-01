@@ -1,5 +1,6 @@
 package com.bilkentazure.evenu.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  * This class is event model
  * @author Endri Suknaj, Aziz Utku Kağıtcı
  */
-public class Event{
+public class Event implements Serializable{
 
 	private String id;
 	private String club_id;
