@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by Zeyad Khaled on 1/5/18-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bilkentazure.evenu.EventView">
+
+
+    <include
+        android:id="@+id/event_view_toolbar"
+        layout="@layout/app_bar_layout"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/event_view_view_rlt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_view_toolbar"
+        >
+
+
+
+        <RelativeLayout
+            android:id="@+id/event_view_header_rlt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           >
+
+            <ImageView
+                android:id="@+id/event_view_img_event"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@drawable/bg_main_screen" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/going_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/event_view_info_rlt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:background="@drawable/bg_round_button"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:text="Going"
+        android:textColor="@android:color/white" />
+
+    <RelativeLayout
+        android:id="@+id/event_view_info_rlt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/event_view_view_rlt"
+        android:background="@drawable/bg_border">
+
+        <TextView
+            android:id="@+id/event_view_txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:fontFamily="@font/roboto"
+            android:maxLines="2"
+            android:layout_marginTop="20dp"
+            android:text="Artificial Intelligence"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/event_view_txt_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/event_view_txt_title"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:maxLines="4"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa quam.Lor ipsum... dolor sit amet, consectetur adipiscing elit. Nam massa quam.Lorem ipsum dolor sit ametconsectetur adipiscing elit. Nam massa quam."
+            android:textAlignment="center"
+            android:textColor="#8C000000"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_below="@+id/event_view_txt_info"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="false"
+            android:layout_marginTop="25dp">
+
+            <RelativeLayout
+                android:id="@+id/event_view_rlt_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:id="@+id/event_view_txt_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_toRightOf="@id/imageView2"
+                    android:fontFamily="@font/roboto"
+                    android:lines="2"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:text="28.04.2018\n17:40"
+                    android:textColor="#000000" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="false"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="25dp"
+                    app:srcCompat="@drawable/ic_date_range" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/event_view_rlt_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/event_view_rlt_date"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/event_view_rlt_date">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="false"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    app:srcCompat="@drawable/ic_location_on" />
+
+                <TextView
+                    android:id="@+id/event_view_txt_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toRightOf="@id/imageView3"
+                    android:fontFamily="@font/roboto"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:text="FFB-205"
+                    android:textColor="#000000" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

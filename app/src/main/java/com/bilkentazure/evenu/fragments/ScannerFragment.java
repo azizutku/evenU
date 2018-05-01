@@ -477,7 +477,6 @@ public class ScannerFragment extends Fragment {
     }
 
 
-
     public void generateList(String eventID) {
 
         //Initializing my excel file with necessary data
