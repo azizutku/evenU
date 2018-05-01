@@ -38,7 +38,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Aziz Utku Kağıtcı on 17/04/2018
@@ -221,7 +223,7 @@ public class HomeFragment extends Fragment {
 						if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
 								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 
-							ActivityCompat.requestPermissions(getActivity() , new String[]{Manifest.permission.WRITE_CALENDAR} , REQUEST_CALENDAR );
+							ActivityCompat.requestPermissions(getActivity() , new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR} , REQUEST_CALENDAR );
 
 						} else if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
 								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
@@ -368,9 +370,8 @@ public class HomeFragment extends Fragment {
 		DocumentReference ref = db.collection("_events").document();
 		String eventId = ref.getId();
 
-		Event event = new Event(eventId,"clubid","Business Conference","image_url",description,"SB-103",date,date,15,tags,keywords,"qr id","spreadsheet link","50002");
+		Event event = new Event(eventId,"clubid","Test Collection","image_url",description,"SB-103",date,date,15,tags,keywords,"qr id","spreadsheet link","50002");
 		db.collection("_events").document(eventId).set(event);
-
 	}
 
 }
