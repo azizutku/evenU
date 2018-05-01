@@ -1,5 +1,6 @@
 package com.bilkentazure.evenu.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.widget.Button;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -40,19 +43,25 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -64,6 +73,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.CountDownLatch;
@@ -71,6 +81,7 @@ import javax.net.ssl.HttpsURLConnection;
 import static android.Manifest.permission.CAMERA;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+
 
 /**
  * Created by Zeyad Khaled on 21/4/2018.
@@ -103,6 +114,10 @@ public class ScannerFragment extends Fragment {
     private Date to_time;
     private ProgressDialog processProgress;
     Button generate;
+    Button listGenerate;
+    String headerData;
+    String rowData;
+    String excelData;
 
 
     /**
@@ -132,8 +147,16 @@ public class ScannerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_scanner, container, false);
         resultView = view.findViewById(R.id.textViewResult);
 
+        //Testing List Generation
+        listGenerate = view.findViewById(R.id.generatlist_button);
+        listGenerate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generateList(null);
+            }
+        });
 
-        //Testing generate
+        //Testing QR generation
         generate = view.findViewById(R.id.generate_button);
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -452,6 +475,88 @@ public class ScannerFragment extends Fragment {
         }
         return false;
     }
+
+
+
+    public void generateList(String eventID) {
+
+        //Initializing my excel file with necessary data
+        headerData =   "\"Name\",\"School ID\",\"Email\"";
+        excelData = headerData + "\n";
+
+        //Query DB for attendees sub collection
+        db.collection("_events").document("CAg0auj0noTKi2GOtKtZ").collection("attendees").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()) {
+
+                    //Get data from every document and write it to the excel file
+                    for ( QueryDocumentSnapshot document : task.getResult()) {
+                        //Log.e("x",document.getString("name"));
+                       rowData   =   "\"" + document.getString("name") +"\",\"" + document.getString("schoolID") + "\",\"" + document.getString("email") + "\"";
+                       excelData = excelData + rowData +  "\n";
+                    }
+
+                    //Check for write permission
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                        ActivityCompat.requestPermissions(getActivity() , new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE} , 1 );
+
+                    //If available then continue execution
+                    } else if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                        StrictMode.setVmPolicy(builder.build());
+
+                        //Initialize a file
+                        File file   = null;
+                        File root   = Environment.getExternalStorageDirectory();
+
+                        //Create file and write to it
+                        if ( root.canWrite()){
+                            File dir    =   new File (root.getAbsolutePath() + "/EventAttendees");
+                            dir.mkdirs();
+                            file   =   new File(dir, "event name here" + ".csv");
+                            FileOutputStream out   =   null;
+                            try {
+                                out = new FileOutputStream(file);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                out.write(excelData.getBytes());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                out.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        //Open an email intent and retrieve the file from storage.
+                        Uri u1  =   null;
+                        u1  =   Uri.fromFile(file);
+                        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Attendees List");
+                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Attendees List");
+                        sendIntent.putExtra(Intent.EXTRA_STREAM, u1);
+                        sendIntent.setType("text/html");
+                        startActivity(sendIntent);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "An attendee list doesn't exist for this event",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+
 
 
     /**

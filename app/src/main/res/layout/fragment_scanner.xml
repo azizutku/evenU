@@ -43,9 +43,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/scan_qr"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp"
-        android:text="GENERATE" />
+        android:layout_alignStart="@+id/scan_qr"
+        android:layout_marginBottom="36dp"
+        android:text="GENERATE QR" />
+
+    <Button
+        android:id="@+id/generatlist_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/generate_button"
+        android:layout_alignBottom="@+id/generate_button"
+        android:layout_alignEnd="@+id/scan_qr"
+        android:text="GENERATE LIST" />
 
 
 
