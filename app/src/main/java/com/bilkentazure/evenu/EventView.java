@@ -26,6 +26,8 @@ public class EventView extends AppCompatActivity {
     private TextView txtInfo;
     private TextView txtDate;
     private TextView txtLocation;
+    private TextView txtGE;
+    private TextView txtClub;
     private Button going;
 
     @Override
@@ -43,6 +45,8 @@ public class EventView extends AppCompatActivity {
         txtInfo =findViewById(R.id.event_view_txt_info);
         txtDate = findViewById(R.id.event_view_txt_date);
         txtLocation = findViewById(R.id.event_view_txt_location);
+        txtGE = findViewById(R.id.event_view_txt_ge);
+        txtClub = findViewById(R.id.event_view_txt_club);
 
         txtTitle.setText(event.getName());
         txtInfo.setText(event.getDescription());
@@ -50,6 +54,9 @@ public class EventView extends AppCompatActivity {
 		String date = dateFormat.format(event.getFrom());
         txtDate.setText(date);
         txtLocation.setText(event.getLocation());
+        txtGE.setText(event.getGe_point() + " Points");
+        txtClub.setText(event.getClub_id());
+
 
         going = findViewById(R.id.going_event);
         going.setOnClickListener(new View.OnClickListener() {
