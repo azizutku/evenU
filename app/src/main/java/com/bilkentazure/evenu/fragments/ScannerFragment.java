@@ -606,7 +606,6 @@ public class ScannerFragment extends Fragment {
                     String line = "";
 
                     while((line = in.readLine()) != null) {
-
                         sb.append(line);
                         break;
                     }

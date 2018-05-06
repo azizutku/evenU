@@ -60,28 +60,37 @@ public class ForgotPassActivity extends AppCompatActivity {
 
 				String email = edtEmail.getText().toString();
 
-				mProgress.setTitle("Sending...");
-				mProgress.setMessage("Please wait!");
-				mProgress.setCanceledOnTouchOutside(false);
-				mProgress.show();
+				if( email.isEmpty()) {
 
-				FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
-					@Override
-					public void onSuccess(Void aVoid) {
-						mProgress.hide();
-						Snackbar snackbar = Snackbar.make(rlt,"Email sent", Snackbar.LENGTH_LONG);
-						snackbar.show();
-						btnSend.setEnabled(true);
-					}
-				}).addOnFailureListener(new OnFailureListener() {
-					@Override
-					public void onFailure(@NonNull Exception e) {
-						mProgress.hide();
-						Snackbar snackbar = Snackbar.make(rlt,"There is no user using this email!", Snackbar.LENGTH_LONG);
-						snackbar.show();
-						btnSend.setEnabled(true);
-					}
-				});
+					mProgress.setTitle("Sending...");
+					mProgress.setMessage("Please wait!");
+					mProgress.setCanceledOnTouchOutside(false);
+					mProgress.show();
+
+					FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+						@Override
+						public void onSuccess(Void aVoid) {
+							mProgress.hide();
+							Snackbar snackbar = Snackbar.make(rlt,"Email sent", Snackbar.LENGTH_LONG);
+							snackbar.show();
+							btnSend.setEnabled(true);
+						}
+					}).addOnFailureListener(new OnFailureListener() {
+						@Override
+						public void onFailure(@NonNull Exception e) {
+							mProgress.hide();
+							Snackbar snackbar = Snackbar.make(rlt,"There is no user using this email!", Snackbar.LENGTH_LONG);
+							snackbar.show();
+							btnSend.setEnabled(true);
+						}
+					});
+
+				} else {
+					Snackbar snackbar = Snackbar.make(rlt,"Please fill all fields!", Snackbar.LENGTH_LONG);
+					snackbar.show();
+				}
+
+
 			}
 		});
 
