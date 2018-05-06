@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/reg_rlt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".RegisterActivity">
+
+        <include
+            android:id="@+id/settings_toolbar"
+            layout="@layout/app_bar_layout" />
+
+
+        <ImageView
+            android:id="@+id/settings_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_settings"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/settings_toolbar"
+            android:layout_centerHorizontal="true"
+            />
+
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_below="@id/settings_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/set_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="Name"
+                    android:textSize="20dp"
+                    android:layout_marginStart="20dp"/>
+
+                <TextView
+                    android:id="@+id/set_dep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:text="Department"
+                    android:textSize="20dp"
+                    android:layout_marginStart="20dp"/>
+
+                <TextView
+                    android:id="@+id/set_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:text="E-Mail"
+                    android:textSize="20dp"
+                    android:layout_marginStart="20dp"/>
+
+                <TextView
+                    android:id="@+id/set_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:text="Password"
+                    android:textSize="20dp"
+                    android:layout_marginStart="20dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="230dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_column="1">
+
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/set_edt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:hint="@string/hint_name"
+                    android:inputType="textPersonName"
+                    android:selectAllOnFocus="true"
+                    android:textSize="16sp"
+                    app:met_floatingLabel="highlight">
+
+                    <requestFocus/>
+                </com.rengwuxian.materialedittext.MaterialEditText>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/set_edt_dep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Department"
+                    android:inputType="textEmailAddress"
+                    android:selectAllOnFocus="true"
+                    android:textSize="16sp"
+                    app:met_floatingLabel="highlight"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/set_edt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Email address"
+                    android:inputType="number"
+                    android:selectAllOnFocus="true"
+                    android:textSize="16sp"
+                    app:met_floatingLabel="highlight"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/set_edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="@string/hint_password"
+                    android:inputType="textPassword"
+                    android:selectAllOnFocus="true"
+                    android:textSize="16sp"
+                    app:met_floatingLabel="highlight"/>
+
+            </LinearLayout>
+
+        </GridLayout>
+
+        <Button
+            android:id="@+id/set_btn_save"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gridLayout"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_round_button"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/save"
+            android:textColor="@android:color/white" />
+
+
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
