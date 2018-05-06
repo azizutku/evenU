@@ -50,6 +50,8 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".Generate" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".GeActivity" />
         <activity android:name=".EventView"></activity>
     </application>
 

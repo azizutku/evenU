@@ -56,6 +56,9 @@ dependencies {
     //QR Generating
     implementation 'com.google.zxing:core:3.3.0'
 
+    //Profile page image view
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
 
 }
 
