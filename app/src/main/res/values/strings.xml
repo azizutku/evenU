@@ -21,4 +21,136 @@
     <string name="settings">Settings</string>
     <string name="settings_string">Settings</string>
     <string name="save">Save</string>
+
+    <string-array name="departments">
+        <item>Architecture</item>
+        <item>Communication and Design</item>
+        <item>Fine Arts</item>
+        <item>Graphic Design</item>
+        <item>Interior Architecture</item>
+        <item>Management</item>
+        <item>Economics</item>
+        <item>History</item>
+        <item>International Relations</item>
+        <item>Political Science</item>
+        <item>Psychology</item>
+        <item>Computer Science</item>
+        <item>Electrical and Electronics Engineering</item>
+        <item>Industrial Engineering</item>
+        <item>Mechanical Engineering</item>
+        <item>Law</item>
+        <item>American Culture and Literature</item>
+        <item>Chemistry</item>
+        <item>Mathematics</item>
+        <item>Molecular Biology and Genetics</item>
+        <item>Physics</item>
+        <item>Music</item>
+    </string-array>
+
+    <string-array name="clubs">
+        <item>ACM Club</item>
+        <item>Aikido Society</item>
+        <item>American Culture Society</item>
+        <item>Archaeology Club</item>
+        <item>Kemalist Thought Society</item>
+        <item>European Technology Students Society</item>
+        <item>Billiards Society</item>
+        <item>Science Fiction and Fantasy Society</item>
+        <item>Women in Computing Club</item>
+        <item>Bilkent Fenerbahçe Fans Club</item>
+        <item>Bilkent Beşiktaş Fans Club</item>
+        <item>Bridge Club</item>
+        <item>Tea Club</item>
+        <item>Translation Society</item>
+        <item>Observers of Nature Society</item>
+        <item>Outdoor Sports Society</item>
+        <item>East Asia Society</item>
+        <item>E-Sports Society</item>
+        <item>Literature Society</item>
+        <item>Political Economy Club</item>
+        <item>Erasmus Exchange Program Students Club</item>
+        <item>Ballroom Dance Club</item>
+        <item>Photography Club</item>
+        <item>Philosophy Society</item>
+        <item>Frisbee Club</item>
+        <item>Gastronomy Club</item>
+        <item>Gazette Bilkent Society</item>
+        <item>Young Entrepreneurs Society</item>
+        <item>Genetics Club</item>
+        <item>Go-Kart Society</item>
+        <item>South Asian Culture Society</item>
+        <item>South and Central American Cultures Society</item>
+        <item>Aviation Club</item>
+        <item>Animal Friends Club</item>
+        <item>Philosophy and Sociology of Law Society</item>
+        <item>Career in Law Club</item>
+        <item>IEEE Student Branch Society</item>
+        <item>English Language and Literature Club</item>
+        <item>Innovative Internet Society</item>
+        <item>Management and Economy Club</item>
+        <item>Judo Society</item>
+        <item>Women Studies Society</item>
+        <item>Coffee Club</item>
+        <item>Chemistry Club</item>
+        <item>Classical Guitar Club</item>
+        <item>Classical Turkish Music Society</item>
+        <item>North Caucasian Culture Club</item>
+        <item>Globe Club</item>
+        <item>Mechanical Engineering Society</item>
+        <item>Board Games Society</item>
+        <item>Civilization Society</item>
+        <item>Media Society</item>
+        <item>Nationalist Thought Society</item>
+        <item>Humor and Culture Society</item>
+        <item>Model United Nations Society</item>
+        <item>Modern Dance Society</item>
+        <item>Motorcycle Society</item>
+        <item>Engineering Society</item>
+        <item>Discussion Society</item>
+        <item>Music Club</item>
+        <item>Musical Society</item>
+        <item>Automobile Sports Club</item>
+        <item>Game Developers Club</item>
+        <item>Open Source Software and Internet Technologies Club</item>
+        <item>Paintball Society</item>
+        <item>Parkour Club</item>
+        <item>Bakery Club</item>
+        <item>Political Thought Club</item>
+        <item>Programming Club</item>
+        <item>Psychology Club</item>
+        <item>Quidditch Society</item>
+        <item>Think Colorfully Club</item>
+        <item>Rotaract Society</item>
+        <item>Artistic Activities Society</item>
+        <item>Chess Society</item>
+        <item>Cinema Society</item>
+        <item>Political Platform Club</item>
+        <item>Socialist Thought Society</item>
+        <item>Sociology Society</item>
+        <item>Underwater Society</item>
+        <item>History Society</item>
+        <item>Design and Architecture Society</item>
+        <item>Theater Club</item>
+        <item>Turkish World Studies Society</item>
+        <item>Turkish Language Society</item>
+        <item>International Law Studies Society</item>
+        <item>International Relations Club</item>
+        <item>International Students Club</item>
+        <item>Third World Studies Society</item>
+        <item>Utopia and Science Club</item>
+        <item>Wing Tsun Society</item>
+        <item>Legal Innovation and Fundamental Enlightenment Club</item>
+        <item>Investment and Finance Society</item>
+        <item>Operational Research Club</item>
+    </string-array>
+
+    <string-array name="interests">
+        <item>Entertainment</item>
+        <item>Science</item>
+        <item>Chemistry</item>
+        <item>Mathematics</item>
+        <item>Biology</item>
+        <item>Physics</item>
+    </string-array>
+
 </resources>

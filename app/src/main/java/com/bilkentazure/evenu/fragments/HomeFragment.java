@@ -176,29 +176,37 @@ public class HomeFragment extends Fragment {
 				holder.btnShare.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-//						DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\n 'Time: ' H:m");
-//						String date = dateFormat.format(event.getFrom());
-//						Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-//						intent.setType("text/plain");
-//						intent.putExtra(android.content.Intent.EXTRA_SUBJECT, event.getName());
-//						intent.putExtra(android.content.Intent.EXTRA_TEXT, "We want to see you among us! Do you want to attend \""
-//								+ event.getName()
-//								+ "\" event?\n\nEvent Description: "
-//								+ event.getDescription()
-//								+ "\n\nDate: " + date
-//								+ "\n\nLocation: "
-//								+ event.getLocation());
-//						startActivity(Intent.createChooser(intent, "Share event!"));
+						DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\n 'Time: ' H:m");
+						String date = dateFormat.format(event.getFrom());
+						Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+						intent.setType("text/plain");
+						intent.putExtra(android.content.Intent.EXTRA_SUBJECT, event.getName());
+						intent.putExtra(android.content.Intent.EXTRA_TEXT, "We want to see you among us! Do you want to attend \""
+								+ event.getName()
+								+ "\" event?\n\nEvent Description: "
+								+ event.getDescription()
+								+ "\n\nDate: " + date
+								+ "\n\nLocation: "
+								+ event.getLocation());
+						startActivity(Intent.createChooser(intent, "Share event!"));
 
 
-						//Testing event view
-						Intent intent = new Intent(getActivity() , EventView.class);
-						intent.putExtra("event", event);
-						startActivity(intent);
+
 
 
 					}
 				});
+
+
+				holder.mainRlt.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(getActivity() , EventView.class);
+						intent.putExtra("event", event);
+						startActivity(intent);
+					}
+				});
+
 
 				// Added by Zeyad on 30/4/18
 				holder.btnNotify.setOnClickListener(new View.OnClickListener() {
