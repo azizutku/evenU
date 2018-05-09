@@ -31,10 +31,10 @@
             <ImageView
                 android:id="@+id/event_view_img_event"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="162dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                app:srcCompat="@drawable/bg_main_screen" />
+                app:srcCompat="@drawable/bg_main_screen"/>
 
         </RelativeLayout>
 
@@ -98,13 +98,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/event_view_txt_title"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/roboto"
             android:maxLines="4"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa quam.Lor ipsum... dolor sit amet, consectetur adipiscing elit. Nam massa quam.Lorem ipsum dolor sit ametconsectetur adipiscing elit. Nam massa quam."
             android:textAlignment="center"
             android:textColor="#8C000000"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -119,7 +121,8 @@
                 android:id="@+id/event_view_rlt_ge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp">
 
                 <TextView
                     android:id="@+id/event_view_txt_ge"
@@ -134,7 +137,7 @@
                     android:maxLines="1"
                     android:minLines="1"
                     android:text="20 GE Points"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"/>
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -144,7 +147,7 @@
                     android:layout_centerHorizontal="false"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="25dp"
-                    app:srcCompat="@drawable/ic_ge" />
+                    app:srcCompat="@drawable/ic_ge"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -185,6 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/event_view_rlt_date"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="35dp"
                 android:layout_toEndOf="@+id/event_view_rlt_date">
 
@@ -196,7 +200,7 @@
                     android:layout_centerHorizontal="false"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="25dp"
-                    app:srcCompat="@drawable/ic_location_on" />
+                    app:srcCompat="@drawable/ic_location_on"/>
 
                 <TextView
                     android:id="@+id/event_view_txt_location"
@@ -211,7 +215,7 @@
                     android:maxLines="1"
                     android:minLines="1"
                     android:text="FFB-205"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"/>
             </RelativeLayout>
         </RelativeLayout>
 

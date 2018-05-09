@@ -57,22 +57,14 @@
                     android:layout_marginStart="20dp"/>
 
                 <TextView
-                    android:id="@+id/set_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:text="E-Mail"
-                    android:textSize="20dp"
-                    android:layout_marginStart="20dp"/>
-
-                <TextView
                     android:id="@+id/set_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="36dp"
                     android:text="Password"
                     android:textSize="20dp"
-                    android:layout_marginStart="20dp"/>
+                    android:visibility="gone"/>
 
 
             </LinearLayout>
@@ -114,19 +106,6 @@
                     app:met_floatingLabel="highlight"/>
 
                 <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/set_edt_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginTop="5dp"
-                    android:ems="10"
-                    android:hint="Email address"
-                    android:inputType="number"
-                    android:selectAllOnFocus="true"
-                    android:textSize="16sp"
-                    app:met_floatingLabel="highlight"/>
-
-                <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/set_edt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -137,6 +116,7 @@
                     android:inputType="textPassword"
                     android:selectAllOnFocus="true"
                     android:textSize="16sp"
+                    android:visibility="gone"
                     app:met_floatingLabel="highlight"/>
 
             </LinearLayout>

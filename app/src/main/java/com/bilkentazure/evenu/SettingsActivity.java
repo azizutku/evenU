@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bilkentazure.evenu.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by Ayşegül  Gökçe on 1.05.2018
@@ -61,9 +63,12 @@ public class SettingsActivity extends AppCompatActivity {
         rlt = findViewById(R.id.reg_rlt);
         btnSave = findViewById(R.id.set_btn_save);
         final EditText edtName = findViewById(R.id.set_edt_name);
-        final EditText edtEmail = findViewById(R.id.set_edt_email);
         final EditText edtDep = findViewById(R.id.set_edt_dep);
-        final EditText edtPass = findViewById(R.id.set_edt_password);
+        //final EditText edtPass = findViewById(R.id.set_edt_password);
+
+        User currentUser = MainActivity.userModel;
+        edtName.setText(currentUser.getName());
+        edtDep.setText(currentUser.getDepartment());
 
         mProgress = new ProgressDialog(this);
 
@@ -79,20 +84,32 @@ public class SettingsActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
-                String email = edtEmail.getText().toString();
-                String password = edtPass.getText().toString();
+               // String password = edtPass.getText().toString();
                 String department = edtDep.getText().toString();
                 String name = edtName.getText().toString();
 
 
-                if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !department.isEmpty()){
+                if(!name.isEmpty() && !department.isEmpty()){
                     mProgress.setTitle("Saving...");
                     mProgress.setMessage("Please wait!");
                     mProgress.setCanceledOnTouchOutside(false);
                     mProgress.show();
 
+                    db.collection("users").document(mAuth.getCurrentUser().getUid()).update("department", department, "name",name).addOnCompleteListener(new OnCompleteListener<Void>() {
+						@Override
+						public void onComplete(@NonNull Task<Void> task) {
+							Toast.makeText(SettingsActivity.this,"Done!", Toast.LENGTH_LONG).show();
+							mProgress.hide();
+							btnSave.setEnabled(true);
+						}
+					});
+
                     //change infos (email, password, department, name)
-                }
+                } else {
+					mProgress.hide();
+					btnSave.setEnabled(true);
+				}
+
 
 
             }
