@@ -84,7 +84,6 @@ public class HomeFragment extends Fragment {
 		mRecyclerEvent.addItemDecoration(new DividerItemDecoration(container.getContext(), LinearLayoutManager.VERTICAL));
 
 
-		//addEvent();
 
 		Query query = db.collection("_events")
 				.orderBy("from", Query.Direction.ASCENDING);
@@ -385,7 +384,7 @@ public class HomeFragment extends Fragment {
 	/**
 	 * It is only for test
 	 */
-	private void addEvent(){
+	private void addEvent(String clubName, String targetDepartment, String targetInterest, String description2, String location){
 
 		String description = "Vivamus dapibus molestie ipsum, a ultrices velit malesuada sit amet. Suspendisse vitae purus quis lectus posuere aliquet. Orci varius natoque penatibus et magnis dis parturient montes";
 
@@ -403,7 +402,7 @@ public class HomeFragment extends Fragment {
 		DocumentReference ref = db.collection("_events").document();
 		String eventId = ref.getId();
 
-		Event event = new Event(eventId,"clubid","Test Collection","image_url",description,"SB-103",date,date,15,tags,keywords,"qr id","spreadsheet link","50002");
+		Event event = new Event(eventId,"clubid","Test Collection","image_url",description2, location, date, date,15,"qr id","spreadsheet link","50002", clubName, targetDepartment, targetInterest);
 		db.collection("_events").document(eventId).set(event);
 	}
 
