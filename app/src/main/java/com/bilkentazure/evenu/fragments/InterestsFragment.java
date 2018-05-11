@@ -58,7 +58,7 @@ public class InterestsFragment extends Fragment {
 
 		}
 
-		mAdapter = new ListAdapter(items, container.getContext());
+		mAdapter = new ListAdapter(items, container.getContext(), 2);
 
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(container.getContext());
 		recyclerView.setLayoutManager(layoutManager);

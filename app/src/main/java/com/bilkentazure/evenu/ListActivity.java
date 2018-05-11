@@ -1,4 +1,4 @@
-package com.bilkentazure.evenu.fragments;
+package com.bilkentazure.evenu;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -6,33 +6,27 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.CalendarContract;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bilkentazure.evenu.EventView;
-import com.bilkentazure.evenu.MainActivity;
-import com.bilkentazure.evenu.R;
+import com.bilkentazure.evenu.fragments.HomeFragment;
 import com.bilkentazure.evenu.models.Event;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -42,14 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-/**
- * Created by Aziz Utku Kağıtcı on 17/04/2018
- * Fragment for Newsfeed
- * @author Aziz Utku Kağıtcı
- * @version 28/04/2018
- */
-public class HomeFragment extends Fragment {
-
+public class ListActivity extends AppCompatActivity {
 
 	//Firebase
 	private FirebaseFirestore db;
@@ -57,46 +44,77 @@ public class HomeFragment extends Fragment {
 	private FirebaseUser mUser;
 	private FirestoreRecyclerAdapter mFirestoreRecyclerAdapter;
 
+	private Toolbar mToolbar;
 	private static final int REQUEST_CALENDAR = 0;
 	private RecyclerView mRecyclerEvent;
 
-	public HomeFragment() {
-		// Required empty public constructor
-	}
-
+	private int counter;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_list);
 
-		View view = inflater.inflate(R.layout.fragment_home, container, false);
+		mToolbar = findViewById(R.id.list_toolbar);
 
 		db = FirebaseFirestore.getInstance();
 		mAuth = FirebaseAuth.getInstance();
 		mUser = mAuth.getCurrentUser();
 
-		mRecyclerEvent = view.findViewById(R.id.fragment_home_recycler);
+		Intent intent = getIntent();
+		String name = intent.getExtras().getString("name","List Activity");
+		int type =  intent.getExtras().getInt("type",0);
+
+		setSupportActionBar(mToolbar);
+		getSupportActionBar().setTitle( name);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		counter = 0;
+
+		mRecyclerEvent = findViewById(R.id.list_recycler_list);
+		final TextView txtInfo = findViewById(R.id.list_txt_info);
 
 		mRecyclerEvent.setHasFixedSize(true);
-		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(container.getContext());
+		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 		mRecyclerEvent.setLayoutManager(layoutManager);
 		mRecyclerEvent.setItemAnimator(new DefaultItemAnimator());
-		mRecyclerEvent.addItemDecoration(new DividerItemDecoration(container.getContext(), LinearLayoutManager.VERTICAL));
+		mRecyclerEvent.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
 
 		//addEvent();
+		Query query;
+		switch(type) {
 
-		Query query = db.collection("_events")
-				.orderBy("from", Query.Direction.ASCENDING);
+			case 0:
+				query = db.collection("_events")
+						.orderBy("from", Query.Direction.ASCENDING).whereEqualTo("target_department", name);
+				break;
+
+			case 1:
+				query = db.collection("_events")
+						.orderBy("from", Query.Direction.ASCENDING).whereEqualTo("club_name", name);
+				break;
+
+			case 2:
+				query = db.collection("_events")
+						.orderBy("from", Query.Direction.ASCENDING).whereEqualTo("target_interest", name);
+				break;
+
+			default:
+				query = db.collection("_events")
+						.orderBy("from", Query.Direction.ASCENDING).whereEqualTo("target_department", name);
+
+		}
 
 		FirestoreRecyclerOptions<Event> options = new FirestoreRecyclerOptions.Builder<Event>()
 				.setQuery(query, Event.class)
 				.build();
 
-		mFirestoreRecyclerAdapter = new FirestoreRecyclerAdapter<Event, EventHolder>(options) {
+		mFirestoreRecyclerAdapter = new FirestoreRecyclerAdapter<Event, HomeFragment.EventHolder>(options) {
 			@Override
-			public void onBindViewHolder(final EventHolder holder, int position, final Event event) {
+			public void onBindViewHolder(final HomeFragment.EventHolder holder, int position, final Event event) {
 
+				txtInfo.setVisibility(View.GONE);
 
 				final String id = event.getId();
 				String club_id = event.getClub_id();
@@ -203,7 +221,7 @@ public class HomeFragment extends Fragment {
 				holder.mainRlt.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Intent intent = new Intent(getActivity() , EventView.class);
+						Intent intent = new Intent(ListActivity.this , EventView.class);
 						intent.putExtra("event", event);
 						startActivity(intent);
 					}
@@ -222,7 +240,7 @@ public class HomeFragment extends Fragment {
 						//Initiate properties
 						startMillis = event.getFrom().getTime();
 						endMillis = event.getTo().getTime();
-						ContentResolver cr = getContext().getContentResolver();
+						ContentResolver cr =getApplicationContext().getContentResolver();
 						ContentValues values = new ContentValues();
 
 						//Populate the event with needed information
@@ -237,13 +255,13 @@ public class HomeFragment extends Fragment {
 						values.put(CalendarContract.Events.EVENT_TIMEZONE, "Turkey");
 
 						//Check and ask for permissions
-						if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
-								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+						if (ActivityCompat.checkSelfPermission(ListActivity.this, android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+								&& ActivityCompat.checkSelfPermission(ListActivity.this, android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 
-							ActivityCompat.requestPermissions(getActivity() , new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR} , REQUEST_CALENDAR );
+							ActivityCompat.requestPermissions(ListActivity.this , new String[]{android.Manifest.permission.WRITE_CALENDAR, android.Manifest.permission.READ_CALENDAR} , REQUEST_CALENDAR );
 
-						} else if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
-								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+						} else if (ActivityCompat.checkSelfPermission(ListActivity.this, android.Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
+								&& ActivityCompat.checkSelfPermission(ListActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
 
 							//Insert event
 							Uri event = cr.insert(CalendarContract.Events.CONTENT_URI, values);
@@ -260,11 +278,11 @@ public class HomeFragment extends Fragment {
 							holder.btnNotify.setImageResource(R.drawable.ic_notifications_active);
 
 							//Code to remove event if button is pressed again, notifyID needs to be saved in Database however
-							cr = getContext().getContentResolver();
+							cr = getApplicationContext().getContentResolver();
 							values = new ContentValues();
-						//	Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
+							//	Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
 
-							Toast.makeText(getContext(), "You will receive notifications for this event",
+							Toast.makeText(getApplicationContext(), "You will receive notifications for this event",
 									Toast.LENGTH_LONG).show();
 						}
 
@@ -276,98 +294,17 @@ public class HomeFragment extends Fragment {
 
 
 			@Override
-			public EventHolder onCreateViewHolder(ViewGroup group, int i) {
+			public HomeFragment.EventHolder onCreateViewHolder(ViewGroup group, int i) {
 				// Create a new instance of the ViewHolder, in this case we are using a custom
 				// layout called R.layout.message for each item
 				View view = LayoutInflater.from(group.getContext())
 						.inflate(R.layout.event_list_item, group, false);
 
-				return new EventHolder(view);
+				return new HomeFragment.EventHolder(view);
 			}
 		};
 
 		mRecyclerEvent.setAdapter(mFirestoreRecyclerAdapter);
-
-		return view;
-	}
-
-
-
-	public static class EventHolder extends RecyclerView.ViewHolder {
-
-		private View mView;
-		private TextView txtTitle;
-		private TextView txtInfo;
-		private TextView txtDate;
-		private TextView txtLocation;
-		public RelativeLayout mainRlt;
-		private RelativeLayout rltHeader;
-		private LinearLayout lnrButtons;
-		private ImageView imgEvent;
-		public FloatingActionButton btnFav;
-		public FloatingActionButton btnShare;
-		public FloatingActionButton btnNotify;
-
-		public EventHolder (View itemView) {
-			super(itemView);
-			mView = itemView;
-
-			txtTitle = mView.findViewById(R.id.event_txt_title);
-			txtInfo = mView.findViewById(R.id.event_txt_info);
-			txtDate = mView.findViewById(R.id.event_txt_date);
-			txtLocation = mView.findViewById(R.id.event_txt_location);
-			mainRlt = mView.findViewById(R.id.event_list_rlt);
-			imgEvent = mView.findViewById(R.id.event_img_event);
-			btnFav = mView.findViewById(R.id.event_btn_fav);
-			btnShare = mView.findViewById(R.id.event_btn_share);
-			btnNotify = mView.findViewById(R.id.event_btn_noti);
-			rltHeader = mView.findViewById(R.id.event_header_rlt);
-			lnrButtons = mView.findViewById(R.id.event_buttons_lnr);
-		}
-
-		public void setTitle(String title) {
-			txtTitle.setText(title);
-		}
-
-		public void setInfo(String info) {
-			txtInfo.setText(info);
-		}
-
-		public void setDate(Date date) {
-			DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\nH:m");
-			txtDate.setText(dateFormat.format(date));
-		}
-
-		public void setLocation(String location) {
-			txtLocation.setText(location);
-		}
-
-		public void setImage(String image_url){
-			//TODO set image to imageview
-		}
-
-
-		public void hide(){
-			mainRlt.setVisibility(View.GONE);
-			ViewGroup.LayoutParams layoutParams = mainRlt.getLayoutParams();
-			layoutParams.height = 0;
-			layoutParams.width = 0;
-			mainRlt.setLayoutParams(layoutParams);
-		}
-
-		public void hideEventImage(){
-
-			rltHeader.setVisibility(View.GONE);
-
-		}
-
-		public void hideEventButtons(){
-
-			lnrButtons.setVisibility(View.GONE);
-
-		}
-
-
 	}
 
 	@Override
@@ -381,30 +318,4 @@ public class HomeFragment extends Fragment {
 		super.onStop();
 		mFirestoreRecyclerAdapter.stopListening();
 	}
-
-	/**
-	 * It is only for test
-	 */
-	private void addEvent(){
-
-		String description = "Vivamus dapibus molestie ipsum, a ultrices velit malesuada sit amet. Suspendisse vitae purus quis lectus posuere aliquet. Orci varius natoque penatibus et magnis dis parturient montes";
-
-		ArrayList<String> tags = new ArrayList<>();
-		tags.add("science");
-		tags.add("human");
-
-		ArrayList<String> keywords = new ArrayList<>();
-		keywords.add("science");
-		keywords.add("human");
-
-
-		Date date = new Date();
-
-		DocumentReference ref = db.collection("_events").document();
-		String eventId = ref.getId();
-
-		Event event = new Event(eventId,"clubid","Test Collection","image_url",description,"SB-103",date,date,15,tags,keywords,"qr id","spreadsheet link","50002");
-		db.collection("_events").document(eventId).set(event);
-	}
-
 }

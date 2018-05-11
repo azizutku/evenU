@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_categorize_rlt_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="5dp">
@@ -44,8 +45,8 @@
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toStartOf="@id/item_categorize_lnr"
         android:fontFamily="@font/roboto"
-        android:text="Computer Science"
         android:maxLines="1"
+        android:text="Computer Science"
         android:textColor="#000"
         android:textSize="17sp"/>
 
