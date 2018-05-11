@@ -57,7 +57,7 @@ public class ClubsFragment extends Fragment {
 
 		}
 
-		mAdapter = new ListAdapter(items, container.getContext());
+		mAdapter = new ListAdapter(items, container.getContext(),1);
 
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(container.getContext());
 		recyclerView.setLayoutManager(layoutManager);

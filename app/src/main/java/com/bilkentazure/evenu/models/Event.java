@@ -29,12 +29,34 @@ public class Event implements Serializable{
 	private String spreadsheet;
 	private String security_check;
 
+	private String club_name;
+	private String target_department;
+	private String target_interest;
+
 
 	public Event() {
 
 	}
 
-	public Event( String id, String club_id, String name, String image, String description, String location, Date from, Date to, int ge_point, ArrayList<String> tags, ArrayList<String> keywords, String qr_id, String spreadsheet, String security_check) {
+	public Event(String id, String club_id, String name, String image, String description, String location, Date from, Date to, int ge_point, String qr_id, String spreadsheet, String security_check, String club_name, String target_department, String target_interest) {
+		this.id = id;
+		this.club_id = club_id;
+		this.name = name;
+		this.image = image;
+		this.description = description;
+		this.location = location;
+		this.from = from;
+		this.to = to;
+		this.ge_point = ge_point;
+		this.qr_id = qr_id;
+		this.spreadsheet = spreadsheet;
+		this.security_check = security_check;
+		this.club_name = club_name;
+		this.target_department = target_department;
+		this.target_interest = target_interest;
+	}
+
+	public Event(String id, String club_id, String name, String image, String description, String location, Date from, Date to, int ge_point, ArrayList<String> tags, ArrayList<String> keywords, String qr_id, String spreadsheet, String security_check) {
 		this.id = id;
 		this.club_id = club_id;
 		this.name = name;

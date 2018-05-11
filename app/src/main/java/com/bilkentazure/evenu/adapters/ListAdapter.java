@@ -2,14 +2,17 @@ package com.bilkentazure.evenu.adapters;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bilkentazure.evenu.ListActivity;
 import com.bilkentazure.evenu.MainActivity;
 import com.bilkentazure.evenu.R;
 import com.bilkentazure.evenu.models.Item;
@@ -30,15 +33,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
 
 	private List<Item> items;
 	private Context context;
+	private int type;
 
 	//Firebase
 	private FirebaseAuth mAuth;
 	private FirebaseFirestore db;
 
-	public ListAdapter(List<Item> items, Context context){
+	public ListAdapter(List<Item> items, Context context, int type){
 		this.context = context;
 		this.items = items;
-
+		this.type = type;
 		db = FirebaseFirestore.getInstance();
 		mAuth = FirebaseAuth.getInstance();
 	}
@@ -81,6 +85,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
 			}
 
 		}
+
+		holder.rlt.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				Intent intent = new Intent(context, ListActivity.class);
+				intent.putExtra("name", name);
+				intent.putExtra("type", type);
+				context.startActivity(intent);
+
+			}
+		});
 
 		btnFollow.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -163,9 +179,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
 
 		private TextView txtName;
 		public FloatingActionButton btnFollow;
+		public RelativeLayout rlt;
 
 		public MyViewHolder(View itemView) {
 			super(itemView);
+			rlt = itemView.findViewById(R.id.item_categorize_rlt_main);
 			txtName = itemView.findViewById(R.id.item_categorize_txt_name);
 			btnFollow = itemView.findViewById(R.id.item_categorize_btn_follow);
 		}

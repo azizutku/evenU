@@ -90,12 +90,24 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 				if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty()){
-					mProgress.setTitle("Registering...");
-					mProgress.setMessage("Please wait!");
-					mProgress.setCanceledOnTouchOutside(false);
-					mProgress.show();
 
-					registerUser(email, password, schoolID, name);
+					if(email.toString().contains("bilkent.edu.tr")){
+
+						mProgress.setTitle("Registering...");
+						mProgress.setMessage("Please wait!");
+						mProgress.setCanceledOnTouchOutside(false);
+						mProgress.show();
+
+						registerUser(email, password, schoolID, name);
+
+					}
+
+					else {
+
+						Snackbar snackbar = Snackbar.make(rlt,"Only students on Bilkent University can register!", Snackbar.LENGTH_LONG);
+						snackbar.show();
+
+					}
 				} else {
 					Snackbar snackbar = Snackbar.make(rlt,"Please fill all fields!", Snackbar.LENGTH_LONG);
 					snackbar.show();
