@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -299,6 +300,8 @@ public class HomeFragment extends Fragment {
 		private TextView txtDate;
 		private TextView txtLocation;
 		public RelativeLayout mainRlt;
+		private RelativeLayout rltHeader;
+		private LinearLayout lnrButtons;
 		private ImageView imgEvent;
 		public FloatingActionButton btnFav;
 		public FloatingActionButton btnShare;
@@ -317,6 +320,8 @@ public class HomeFragment extends Fragment {
 			btnFav = mView.findViewById(R.id.event_btn_fav);
 			btnShare = mView.findViewById(R.id.event_btn_share);
 			btnNotify = mView.findViewById(R.id.event_btn_noti);
+			rltHeader = mView.findViewById(R.id.event_header_rlt);
+			lnrButtons = mView.findViewById(R.id.event_buttons_lnr);
 		}
 
 		public void setTitle(String title) {
@@ -347,6 +352,18 @@ public class HomeFragment extends Fragment {
 			layoutParams.height = 0;
 			layoutParams.width = 0;
 			mainRlt.setLayoutParams(layoutParams);
+		}
+
+		public void hideEventImage(){
+
+			rltHeader.setVisibility(View.GONE);
+
+		}
+
+		public void hideEventButtons(){
+
+			lnrButtons.setVisibility(View.GONE);
+
 		}
 
 

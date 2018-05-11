@@ -48,17 +48,27 @@
         android:layout_marginEnd="20dp"
         />
 
-<ScrollView
-    android:layout_marginTop="20dp"
-    android:layout_below="@+id/ge_counter"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/ge_recycler"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="20dp">
 
-</ScrollView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ge_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ge_counter"
+        android:layout_marginLeft="8dp"
+        android:fontFamily="@font/roboto"
+        android:text="Attended Events"/>
 </RelativeLayout>
