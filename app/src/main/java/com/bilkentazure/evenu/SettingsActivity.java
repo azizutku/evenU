@@ -66,6 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
         final EditText edtDep = findViewById(R.id.set_edt_dep);
         //final EditText edtPass = findViewById(R.id.set_edt_password);
 
+        //changing name and department informations
         User currentUser = MainActivity.userModel;
         edtName.setText(currentUser.getName());
         edtDep.setText(currentUser.getDepartment());
@@ -88,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
                 String department = edtDep.getText().toString();
                 String name = edtName.getText().toString();
 
-
+                // the infos filled changing process
                 if(!name.isEmpty() && !department.isEmpty()){
                     mProgress.setTitle("Saving...");
                     mProgress.setMessage("Please wait!");

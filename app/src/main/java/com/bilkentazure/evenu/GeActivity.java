@@ -86,14 +86,18 @@ public class GeActivity  extends AppCompatActivity {
 
         User currentUser = MainActivity.userModel;
 
-        int ge_point = currentUser.getGeTotal();
+        //updating ge progress bar according to user's points
 
+        int ge_point = currentUser.getGeTotal();
 
 		txtCounter.setText(ge_point + "/200");
 
 		mSeekBar.setMax(200);
 		mSeekBar.setEnabled(false);
 		mSeekBar.setProgress(ge_point);
+
+		//past events scroll bar infos
+
 		String[] data = new String[currentUser.getAttendedEvents().size()];
 		data = currentUser.getAttendedEvents().toArray(data);
 
