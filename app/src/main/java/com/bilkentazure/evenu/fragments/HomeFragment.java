@@ -2,11 +2,14 @@ package com.bilkentazure.evenu.fragments;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -67,7 +70,7 @@ public class HomeFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+							 final Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -118,6 +121,15 @@ public class HomeFragment extends Fragment {
 				holder.setImage(image);
 				holder.setLocation(location);
 				holder.setDate(from);
+
+				SharedPreferences sharedPreferences =  PreferenceManager.getDefaultSharedPreferences(getContext());
+
+
+				if(sharedPreferences.getBoolean(id, false)){
+
+					holder.btnNotify.setImageResource(R.drawable.ic_notifications_active);
+
+				}
 
 
 				if (MainActivity.userModel != null) {
@@ -244,27 +256,66 @@ public class HomeFragment extends Fragment {
 						} else if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
 								&& ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
 
+							SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 							//Insert event
 							Uri event = cr.insert(CalendarContract.Events.CONTENT_URI, values);
 
 							//Set reminder for given event
 							long notifyID = Long.parseLong( event.getLastPathSegment());
-							ContentValues reminders = new ContentValues();
-							reminders.put(CalendarContract.Reminders.EVENT_ID, notifyID);
-							reminders.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
-							reminders.put(CalendarContract.Reminders.MINUTES,60);
-							Uri uri2 = cr.insert(CalendarContract.Reminders.CONTENT_URI, reminders);
 
-							//Need a collection for notification events in user collection to retrieve set events
-							holder.btnNotify.setImageResource(R.drawable.ic_notifications_active);
+							if(!sharedPreferences.getBoolean(id,false)) {
 
-							//Code to remove event if button is pressed again, notifyID needs to be saved in Database however
-							cr = getContext().getContentResolver();
-							values = new ContentValues();
-						//	Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
+								ContentValues reminders = new ContentValues();
+								reminders.put(CalendarContract.Reminders.EVENT_ID, notifyID);
+								reminders.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+								reminders.put(CalendarContract.Reminders.MINUTES,60);
+								Uri uri2 = cr.insert(CalendarContract.Reminders.CONTENT_URI, reminders);
 
-							Toast.makeText(getContext(), "You will receive notifications for this event",
-									Toast.LENGTH_LONG).show();
+								//Need a collection for notification events in user collection to retrieve set events
+								holder.btnNotify.setImageResource(R.drawable.ic_notifications_active);
+
+								//Code to remove event if button is pressed again, notifyID needs to be saved in Database however
+								cr = getContext().getContentResolver();
+								values = new ContentValues();
+
+								SharedPreferences.Editor editor = sharedPreferences.edit();
+								editor.putLong( id + " ", notifyID);
+								editor.putBoolean(id, true);
+								editor.commit();
+								//	Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
+
+								Toast.makeText(getContext(), "You will receive notifications for this event",
+										Toast.LENGTH_LONG).show();
+
+							} else {
+
+								notifyID = sharedPreferences.getLong(id + " ",2);
+
+
+
+								Uri eventsUri;
+								int osVersion = android.os.Build.VERSION.SDK_INT;
+								if (osVersion <= 7) { //up-to Android 2.1
+									eventsUri = Uri.parse("content://calendar/events");
+								} else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+									eventsUri = Uri.parse("content://com.android.calendar/events");
+								}
+								ContentResolver resolver = getActivity().getContentResolver();
+
+
+								resolver.delete(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID), null, null);
+
+
+						//		ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, notifyID);
+								holder.btnNotify.setImageResource(R.drawable.ic_notifications_none);
+								SharedPreferences.Editor editor = sharedPreferences.edit();
+								editor.putLong( id, notifyID);
+								editor.putBoolean(id, false);
+								editor.commit();
+
+							}
+
+
 						}
 
 

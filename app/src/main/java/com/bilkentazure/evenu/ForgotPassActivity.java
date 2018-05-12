@@ -60,7 +60,7 @@ public class ForgotPassActivity extends AppCompatActivity {
 
 				String email = edtEmail.getText().toString();
 
-				if( email.isEmpty()) {
+				if( !email.isEmpty()) {
 
 					mProgress.setTitle("Sending...");
 					mProgress.setMessage("Please wait!");
