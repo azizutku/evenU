@@ -58,21 +58,21 @@ public class EventView extends AppCompatActivity {
         txtClub.setText(event.getClub_id());
 
 
-        going = findViewById(R.id.going_event);
-        going.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Process going here and save to database
-
-                //Return back to home activity
-                Intent returnIntent = new Intent();
-                setResult(RESULT_OK, returnIntent);
-                Toast.makeText(getApplicationContext(), "Going to event is successful!",
-                        Toast.LENGTH_LONG).show();
-                finish();
-            }
-        });
+//        going = findViewById(R.id.going_event);
+//        going.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                //Process going here and save to database
+//
+//                //Return back to home activity
+//                Intent returnIntent = new Intent();
+//                setResult(RESULT_OK, returnIntent);
+//                Toast.makeText(getApplicationContext(), "Going to event is successful!",
+//                        Toast.LENGTH_LONG).show();
+//                finish();
+//            }
+//        });
 
     }
 }

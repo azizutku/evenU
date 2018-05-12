@@ -31,29 +31,15 @@
             <ImageView
                 android:id="@+id/event_view_img_event"
                 android:layout_width="match_parent"
-                android:layout_height="162dp"
+                android:layout_height="250dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                app:srcCompat="@drawable/bg_main_screen"/>
+                app:srcCompat="@drawable/bg_main_screen" />
 
         </RelativeLayout>
 
 
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/going_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/event_view_info_rlt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
-        android:background="@drawable/bg_round_button"
-        android:fontFamily="@font/roboto_medium"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:text="Going"
-        android:textColor="@android:color/white" />
 
     <RelativeLayout
         android:id="@+id/event_view_info_rlt"
