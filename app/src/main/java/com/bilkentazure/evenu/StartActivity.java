@@ -38,6 +38,9 @@ public class StartActivity extends AppCompatActivity {
 		TextView txtForgot = findViewById(R.id.main_txt_forgot_password);
 		TextView txtRegister = findViewById(R.id.main_txt_register);
 
+
+		//Adjust Activity connections.
+
 		txtRegister.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -65,9 +68,11 @@ public class StartActivity extends AppCompatActivity {
 		mViewPager = findViewById(R.id.main_viewpager_slide);
 		mLinear = findViewById(R.id.main_lnr_dots);
 
+		//Set adapter
 		mSliderAdapter = new SliderAdapter(this);
 		mViewPager.setAdapter(mSliderAdapter);
 
+		//Add dots with selected
 		addDotsIndicator(0);
 
 		mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -92,6 +97,8 @@ public class StartActivity extends AppCompatActivity {
 	public void addDotsIndicator(int position){
 
 		mTxtDots = new TextView[mSliderAdapter.getCount()];
+
+		//Remove all dots
 		mLinear.removeAllViews();
 
 		for( int i = 0; i < mTxtDots.length; i++){
@@ -101,6 +108,7 @@ public class StartActivity extends AppCompatActivity {
 			mTxtDots[i].setTextSize(35);
 
 			if(i == position){
+				//Set selected dot to white
 				mTxtDots[position].setTextColor(getResources().getColor(R.color.colorWhite));
 				mTxtDots[position].setTextSize(45);
 			} else {
