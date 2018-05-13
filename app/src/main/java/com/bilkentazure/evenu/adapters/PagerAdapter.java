@@ -24,7 +24,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
-
+		//Set fragments
 		switch (position){
 			case 0:
 				HomeFragment homeFragment = new HomeFragment();
