@@ -19,15 +19,16 @@ import java.util.List;
 
 /**
  * Created by Aziz Utku Kağıtcı on 08/05/2018
- *
+ * This adapter for Attended Events on the GeActivity
  * @author Aziz Utku Kağıtcı
  * @version 08/05/2018
  */
-public class CustomEventAdapter extends RecyclerView.Adapter<HomeFragment.EventHolder>{
+	public class CustomEventAdapter extends RecyclerView.Adapter<HomeFragment.EventHolder>{
 
 	private List<Event> eventList;
 	private Context context;
 
+	//Constructor
 	public CustomEventAdapter(Context context, List<Event> eventList){
 		this.eventList = eventList;
 		this.context = context;
@@ -35,12 +36,15 @@ public class CustomEventAdapter extends RecyclerView.Adapter<HomeFragment.EventH
 
 	@Override
 	public HomeFragment.EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		//Create view and inflate
 		View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_list_item,parent,false);
 		return new HomeFragment.EventHolder(itemView);
 	}
 
 	@Override
 	public void onBindViewHolder(HomeFragment.EventHolder holder, int position) {
+
+		//Set view
 		final Event event = eventList.get(position);
 
 		String name = event.getName();
@@ -59,6 +63,7 @@ public class CustomEventAdapter extends RecyclerView.Adapter<HomeFragment.EventH
 		holder.mainRlt.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//Open EventView activity
 				Intent intent = new Intent(context , EventView.class);
 				intent.putExtra("event", event);
 				context.startActivity(intent);
