@@ -13,7 +13,7 @@ import com.bilkentazure.evenu.fragments.InterestsFragment;
 
 /**
  * Created by Aziz Utku Kağıtcı on 06/05/2018
- *
+ * This adapter is for pager on the Categorize page
  * @author Aziz Utku Kağıtcı
  * @version 06/05/2018
  */
@@ -26,6 +26,7 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
+		//Set fragments
 		switch (position) {
 			case 0:
 				DepartmentsFragment departmentsFragment = new DepartmentsFragment();
