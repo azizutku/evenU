@@ -51,14 +51,16 @@ public class VerifyActivity extends AppCompatActivity {
 
 		mProgress = new ProgressDialog(this);
 
-
+		//Reload user to get current state
 		user.reload();
 		if (!user.isEmailVerified()) {
 			mProgress.setTitle("Sending...");
 			mProgress.setMessage("Please wait!");
 			mProgress.show();
+			//Send email verification if user's mail is not verified
 			sendEmailVerification();
 		} else {
+			//Else open MainActivity
 			Intent intent = new Intent(VerifyActivity.this, MainActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(intent);
@@ -71,6 +73,7 @@ public class VerifyActivity extends AppCompatActivity {
 				user.reload().addOnCompleteListener(new OnCompleteListener<Void>() {
 					@Override
 					public void onComplete(@NonNull Task<Void> task) {
+						//Check verification
 						if (!user.isEmailVerified()) {
 							Snackbar snackbar = Snackbar.make(rlt, "Your email address has not been verified yet!", Snackbar.LENGTH_LONG);
 							snackbar.show();
@@ -88,7 +91,7 @@ public class VerifyActivity extends AppCompatActivity {
 		btnSend.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				//Send verification
 				btnSend.setEnabled(false);
 				mProgress.setTitle("Sending...");
 				mProgress.setMessage("Please wait!");
@@ -105,6 +108,7 @@ public class VerifyActivity extends AppCompatActivity {
 		FirebaseUser user = mAuth.getCurrentUser();
 		user.reload();
 		if (user != null) {
+			//Send verification
 			user.sendEmailVerification()
 					.addOnCompleteListener(new OnCompleteListener<Void>() {
 						@Override
