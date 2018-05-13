@@ -103,12 +103,13 @@ public class RegisterActivity extends AppCompatActivity {
 					}
 
 					else {
-
+						btnSignUp.setEnabled(true);
 						Snackbar snackbar = Snackbar.make(rlt,"Only students on Bilkent University can register!", Snackbar.LENGTH_LONG);
 						snackbar.show();
 
 					}
 				} else {
+					btnSignUp.setEnabled(true);
 					Snackbar snackbar = Snackbar.make(rlt,"Please fill all fields!", Snackbar.LENGTH_LONG);
 					snackbar.show();
 				}
@@ -145,13 +146,13 @@ public class RegisterActivity extends AppCompatActivity {
 				User user = new User(schoolID,
 						email,
 						name,
-						"Department",
+						"Computer Science",
 						"default",
 						"default",
 						FirebaseInstanceId.getInstance().getToken(),
 						0,
-						false,
-						false,
+						true,
+						true,
 						new ArrayList<String>(),
 						new ArrayList<String>(),
 						new ArrayList<String>(),
@@ -190,6 +191,8 @@ public class RegisterActivity extends AppCompatActivity {
 		}).addOnFailureListener(new OnFailureListener() {
 			@Override
 			public void onFailure(@NonNull Exception e) {
+
+				btnSignUp.setEnabled(true);
 				Log.w(TAG, "Error registering user", e);
 				mProgress.hide();
 				btnSignUp.setEnabled(true);
