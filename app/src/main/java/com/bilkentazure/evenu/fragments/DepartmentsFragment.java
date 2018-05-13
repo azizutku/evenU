@@ -47,10 +47,12 @@ public class DepartmentsFragment extends Fragment {
 
 		recyclerView = mView.findViewById(R.id.departments_fragment_recycler);
 
+		//Get all departments name and add them to RecyclerView
 		items = new ArrayList<>();
 		String[] departments = getContext().getResources().getStringArray(R.array.departments);
 		ArrayList<String> subscribed = MainActivity.userModel.getSubscribedDepartments();
 
+		//Check followed or not
 		for ( String department: departments){
 
 			boolean followed = subscribed.contains(department);
@@ -59,8 +61,10 @@ public class DepartmentsFragment extends Fragment {
 
 		}
 
+		//Set adapter
 		mAdapter = new ListAdapter(items, container.getContext(),0);
 
+		//Set properties of RecyclerView
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(container.getContext());
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
