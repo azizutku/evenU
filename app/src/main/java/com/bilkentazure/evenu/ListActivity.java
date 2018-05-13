@@ -57,14 +57,17 @@ public class ListActivity extends AppCompatActivity {
 
 		mToolbar = findViewById(R.id.list_toolbar);
 
+		//Set Firebase
 		db = FirebaseFirestore.getInstance();
 		mAuth = FirebaseAuth.getInstance();
 		mUser = mAuth.getCurrentUser();
 
+		//Get extras
 		Intent intent = getIntent();
 		String name = intent.getExtras().getString("name","List Activity");
 		int type =  intent.getExtras().getInt("type",0);
 
+		//Set toolbar
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setTitle( name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -74,6 +77,7 @@ public class ListActivity extends AppCompatActivity {
 		mRecyclerEvent = findViewById(R.id.list_recycler_list);
 		final TextView txtInfo = findViewById(R.id.list_txt_info);
 
+		//Set properties to RecyclerView
 		mRecyclerEvent.setHasFixedSize(true);
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 		mRecyclerEvent.setLayoutManager(layoutManager);
@@ -82,6 +86,8 @@ public class ListActivity extends AppCompatActivity {
 
 
 		//addEvent();
+
+		//Set query by respect to tabs.
 		Query query;
 		switch(type) {
 
@@ -106,14 +112,19 @@ public class ListActivity extends AppCompatActivity {
 
 		}
 
+		//Set firestore options.
 		FirestoreRecyclerOptions<Event> options = new FirestoreRecyclerOptions.Builder<Event>()
 				.setQuery(query, Event.class)
 				.build();
 
+
+		//Set adapter
 		mFirestoreRecyclerAdapter = new FirestoreRecyclerAdapter<Event, HomeFragment.EventHolder>(options) {
 			@Override
 			public void onBindViewHolder(final HomeFragment.EventHolder holder, int position, final Event event) {
 
+
+				//Set view
 				txtInfo.setVisibility(View.GONE);
 
 				final String id = event.getId();
@@ -139,6 +150,7 @@ public class ListActivity extends AppCompatActivity {
 				holder.setDate(from);
 
 
+				//Adjust image by respect to favorited or not
 				if (MainActivity.userModel != null) {
 
 					ArrayList<String> favoriteEvents = MainActivity.userModel.getFavoriteEvents();
@@ -157,6 +169,8 @@ public class ListActivity extends AppCompatActivity {
 					@Override
 					public void onClick(View v) {
 
+
+						//Add it to favorited events.
 						if (MainActivity.userModel != null) {
 							ArrayList<String> favoriteEvents = MainActivity.userModel.getFavoriteEvents();
 
@@ -167,7 +181,7 @@ public class ListActivity extends AppCompatActivity {
 
 								if (value.equals(id)) {
 
-									//FIXME add success listener
+
 									iterator.remove();
 									MainActivity.userModel.setFavoriteEvents(favoriteEvents);
 									isPresent = true;
@@ -180,6 +194,7 @@ public class ListActivity extends AppCompatActivity {
 
 							}
 
+							//If it is not present add it to favorite
 							if (!isPresent) {
 								favoriteEvents.add(id);
 								MainActivity.userModel.setFavoriteEvents(favoriteEvents);
@@ -196,6 +211,8 @@ public class ListActivity extends AppCompatActivity {
 				holder.btnShare.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+
+						//Share it
 						DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\n 'Time: ' H:m");
 						String date = dateFormat.format(event.getFrom());
 						Intent intent = new Intent(android.content.Intent.ACTION_SEND);
@@ -221,6 +238,7 @@ public class ListActivity extends AppCompatActivity {
 				holder.mainRlt.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+						//Open EventView activity
 						Intent intent = new Intent(ListActivity.this , EventView.class);
 						intent.putExtra("event", event);
 						startActivity(intent);
@@ -310,12 +328,14 @@ public class ListActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		//Start listening for adapter
 		mFirestoreRecyclerAdapter.startListening();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
+		//Stop listening for adapter
 		mFirestoreRecyclerAdapter.stopListening();
 	}
 }
