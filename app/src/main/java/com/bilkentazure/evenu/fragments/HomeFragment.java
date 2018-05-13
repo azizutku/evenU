@@ -138,8 +138,13 @@ public class HomeFragment extends Fragment {
 
 					for (String event_id : favoriteEvents) {
 
-						if (event_id.equals(id)) {
-							holder.btnFav.setImageResource(R.drawable.ic_favorite_selected);
+						if(!event_id.isEmpty() || event_id != null){
+
+							if (event_id.equals(id)) {
+								holder.btnFav.setImageResource(R.drawable.ic_favorite_selected);
+
+							}
+
 						}
 					}
 
