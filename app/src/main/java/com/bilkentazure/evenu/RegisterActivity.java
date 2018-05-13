@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 
+		//Set toolbar
 		mToolbar = findViewById(R.id.register_toolbar);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setTitle("Create Account");
@@ -77,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 				btnSignUp.setEnabled(false);
 
+				//Hide keyboard
 				View view = RegisterActivity.this.getCurrentFocus();
 				if (view != null) {
 					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -98,10 +100,12 @@ public class RegisterActivity extends AppCompatActivity {
 						mProgress.setCanceledOnTouchOutside(false);
 						mProgress.show();
 
+						//Register with email, password, school id and name
 						registerUser(email, password, schoolID, name);
 
 					}
 
+					//If email is not Bilkent University email.
 					else {
 						btnSignUp.setEnabled(true);
 						Snackbar snackbar = Snackbar.make(rlt,"Only students on Bilkent University can register!", Snackbar.LENGTH_LONG);
@@ -126,23 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
 			@Override
 			public void onSuccess(AuthResult authResult) {
 
-				/*private String schoolId;
-				private String email;
-				private String name;
-				private String department;
-				private String image;
-				private String thumbImage;
-				private String tokenID;
-				private int geTotal;
-				private boolean takeGe250;
-				private boolean takeGe251;
-				ArrayList<String> attendedEvents;
-				ArrayList<String> favoriteEvents;
-				ArrayList<String> subscribedDepartments;
-				ArrayList<String> subscribeInterests;
-				ArrayList<String> subscribedClubs;*/
-
-
+				//Set user
 				User user = new User(schoolID,
 						email,
 						name,
@@ -159,6 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
 						new ArrayList<String>(),
 						new ArrayList<String>());
 
+				//Add user to database
 				db.collection("users")
 						.document(mAuth.getCurrentUser().getUid())
 						.set(user)
@@ -167,6 +156,8 @@ public class RegisterActivity extends AppCompatActivity {
 					public void onComplete(@NonNull Task<Void> task) {
 
 						if (task.isSuccessful()) {
+
+							//Open verify activity
 							Log.d(TAG, "Adding document success");
 							mProgress.dismiss();
 							btnSignUp.setEnabled(true);
