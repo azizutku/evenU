@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
 	public static User userModel;
 
+	//IDs of tab icons
 	final int[] ICONS_OF_TABS = new int[]{
 			R.drawable.ic_tab_home,
 			R.drawable.ic_tab_camera,
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		//Set toolbar
 		mToolbar = findViewById(R.id.main_toolbar);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setTitle(" Newsfeed");
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 		mProgress.setMessage("Please wait...");
 		mProgress.setCanceledOnTouchOutside(false);
 		mProgress.show();
+
+		//Check current user state
 		updateState(mCurrentUser);
 
 
@@ -92,15 +96,18 @@ public class MainActivity extends AppCompatActivity {
 
 		if( user == null){
 			mProgress.dismiss();
+			//If user is null send to start
 			sendToStart();
 		}
 		else {
 			if(!user.isEmailVerified()){
 				mProgress.dismiss();
+				//If email is not verified send user to verify page
 				sendToVerify();
 			} else {
 
 
+				//get user info
 				db.collection("users").document(mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 					@Override
 					public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -110,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
 							if(documentSnapshot != null){
 
+								//set data to User object
 								userModel = documentSnapshot.toObject(User.class);
 
 
@@ -119,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
 						mProgress.dismiss();
 
+						//Set PagerAdapter
 						pagerAdapter = new PagerAdapter(getSupportFragmentManager());
 						tabLayout = findViewById(R.id.main_tab_layout);
 						viewPager = findViewById(R.id.main_view_pager);
@@ -126,10 +135,12 @@ public class MainActivity extends AppCompatActivity {
 						viewPager.setAdapter(pagerAdapter);
 						tabLayout.setupWithViewPager(viewPager);
 
+						//Set icons
 						for(int i = 0; i < tabLayout.getTabCount(); i++) {
 							tabLayout.getTabAt(i).setIcon(ICONS_OF_TABS[i]);
 						}
 
+						//Change title by respect to tab
 						tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 							@Override
 							public void onTabSelected(TabLayout.Tab tab) {
@@ -193,18 +204,21 @@ public class MainActivity extends AppCompatActivity {
 
 	}
 
+	//Send to StartActivity
 	private void sendToStart(){
 		Intent intent = new Intent(MainActivity.this,StartActivity.class);
 		startActivity(intent);
 		finish();
 	}
 
+	//Send to VerifyActivity
 	private void sendToVerify(){
 		Intent intent = new Intent(MainActivity.this,VerifyActivity.class);
 		startActivity(intent);
 		finish();
 	}
 
+	//Send to About Page
 	private void sendToAbout(){
 		Intent intent = new Intent(MainActivity.this,AboutActivity.class);
 		startActivity(intent);
@@ -213,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
+		//Inflate menu
 		getMenuInflater().inflate(R.menu.main_menu,menu);
 		return true;
 	}
@@ -220,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
-
+		//Set menu
 		switch(item.getItemId()){
 			case R.id.menu_main_about:
 				sendToAbout();
