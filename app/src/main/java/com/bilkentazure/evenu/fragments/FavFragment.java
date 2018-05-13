@@ -72,21 +72,25 @@ public class FavFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_fav, container, false);
 
+		//Firebase
 		db = FirebaseFirestore.getInstance();
 		mAuth = FirebaseAuth.getInstance();
 		mUser = mAuth.getCurrentUser();
 
 		mRecyclerEvent = view.findViewById(R.id.fragment_fav_recycler);
 
+		//Set properties of RecyclerView
 		mRecyclerEvent.setHasFixedSize(true);
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(container.getContext());
 		mRecyclerEvent.setLayoutManager(layoutManager);
 		mRecyclerEvent.setItemAnimator(new DefaultItemAnimator());
 		mRecyclerEvent.addItemDecoration(new DividerItemDecoration(container.getContext(), LinearLayoutManager.VERTICAL));
 
+		//Set query
 		Query query = db.collection("_events")
 				.orderBy("from",Query.Direction.ASCENDING);
 
+		//Set options
 		FirestoreRecyclerOptions<Event> options =  new FirestoreRecyclerOptions.Builder<Event>()
 				.setQuery(query, Event.class)
 				.build();
@@ -95,7 +99,7 @@ public class FavFragment extends Fragment {
 			@Override
 			public void onBindViewHolder(final HomeFragment.EventHolder holder, int position, final Event event) {
 
-
+				//Set view
 				final String id = event.getId();
 				String club_id = event.getClub_id();
 				String name = event.getName();
@@ -120,12 +124,14 @@ public class FavFragment extends Fragment {
 
 				if(MainActivity.userModel != null){
 
+					//Get favorite events.
 					ArrayList<String> favoriteEvents = MainActivity.userModel.getFavoriteEvents();
 					boolean isPresent = false;
 
 					for(String event_id: favoriteEvents){
 						if(event_id.equals(id)){
 							isPresent = true;
+							//Set their icon selected
 							holder.btnFav.setImageResource(R.drawable.ic_favorite_selected);
 						}
 					}
@@ -138,6 +144,7 @@ public class FavFragment extends Fragment {
 				}
 
 
+				//Remove it from favorite events
 				holder.btnFav.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -152,6 +159,7 @@ public class FavFragment extends Fragment {
 
 									iterator.remove();
 									MainActivity.userModel.setFavoriteEvents(favoriteEvents);
+									//Hide item
 									holder.hide();
 
 									db.collection("users").document(mAuth.getCurrentUser().getUid()).update("favoriteEvents", favoriteEvents);
@@ -171,6 +179,7 @@ public class FavFragment extends Fragment {
 						holder.btnShare.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
+								//Share it
 								DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy\n 'Time: 'H:m");
 								String date = dateFormat.format(event.getFrom());
 								Intent intent = new Intent(android.content.Intent.ACTION_SEND);
@@ -313,12 +322,14 @@ public class FavFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
+		//Start listening
 		mFirestoreRecyclerAdapter.startListening();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
+		//Stop listening
 		mFirestoreRecyclerAdapter.stopListening();
 	}
 
