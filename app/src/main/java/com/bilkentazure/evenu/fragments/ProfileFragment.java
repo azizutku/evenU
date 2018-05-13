@@ -17,8 +17,8 @@ import com.bilkentazure.evenu.SettingsActivity;
 
 /**
  * Created by Aziz Utku Kağıtcı on 17/04/2018
- * Fragment for Categorized Events
- * @author Aziz Utku Kağıtcı
+ * Fragment for Profile
+ * @author Ayşegül Gökçe
  * @version 17/04/2018
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener{
