@@ -1,5 +1,6 @@
 package com.bilkentazure.evenu;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 	private ViewPager viewPager;
 
 	private Toolbar mToolbar;
+	private ProgressDialog mProgress;
+
 
 	public static User userModel;
 
@@ -66,11 +69,17 @@ public class MainActivity extends AppCompatActivity {
 		getSupportActionBar().setTitle(" Newsfeed");
 		getSupportActionBar().setIcon(R.drawable.ic_icon);
 
+		mProgress = new ProgressDialog(this);
+
 		//Firebase
 		mAuth = FirebaseAuth.getInstance();
 		db = FirebaseFirestore.getInstance();
 		mCurrentUser = mAuth.getCurrentUser();
 
+		mProgress.setTitle("Loading");
+		mProgress.setMessage("Please wait...");
+		mProgress.setCanceledOnTouchOutside(false);
+		mProgress.show();
 		updateState(mCurrentUser);
 
 
@@ -82,10 +91,12 @@ public class MainActivity extends AppCompatActivity {
 	private void updateState(FirebaseUser user){
 
 		if( user == null){
+			mProgress.dismiss();
 			sendToStart();
 		}
 		else {
 			if(!user.isEmailVerified()){
+				mProgress.dismiss();
 				sendToVerify();
 			} else {
 
@@ -105,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
 							}
 
 						}
+
+						mProgress.dismiss();
 
 						pagerAdapter = new PagerAdapter(getSupportFragmentManager());
 						tabLayout = findViewById(R.id.main_tab_layout);
