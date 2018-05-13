@@ -40,6 +40,7 @@
         android:hint="@string/hint_name"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
+        android:text="Aziz Utku Kağıtcı"
         android:textSize="16sp"
         app:met_floatingLabel="highlight">
 
@@ -60,6 +61,7 @@
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
+        android:text="utku.kagitci@ug.bilkent.edu.tr"
         android:textSize="16sp"
         app:met_floatingLabel="highlight"/>
 
@@ -77,6 +79,7 @@
         android:hint="@string/hint_school_id"
         android:inputType="number"
         android:selectAllOnFocus="true"
+        android:text="21602869"
         android:textSize="16sp"
         app:met_floatingLabel="highlight"/>
 
@@ -94,6 +97,7 @@
         android:hint="@string/hint_password"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
+        android:text="12345678"
         android:textSize="16sp"
         app:met_floatingLabel="highlight"/>
 
