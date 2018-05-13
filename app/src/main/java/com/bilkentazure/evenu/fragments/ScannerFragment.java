@@ -70,6 +70,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -405,7 +406,8 @@ public class ScannerFragment extends Fragment {
                         is_ge = snap.getBoolean("takeGe250"); // needs fix
 
                         isTakingGE();
-                        new SendRequest().execute();
+
+                       // new SendRequest().execute();
                     }
                 } else {
                     resultView.setTextColor(Color.RED);
@@ -421,11 +423,31 @@ public class ScannerFragment extends Fragment {
      * Add current user android phone to this event
      */
     public void addAndroidIDToDatabase() {
-        Map<String,String> atteendesFields = new HashMap<>();
+        final Map<String,String> atteendesFields = new HashMap<>();
         atteendesFields.put("name", MainActivity.userModel.getName());
         atteendesFields.put("email", MainActivity.userModel.getEmail());
         atteendesFields.put("schoolID", MainActivity.userModel.getSchoolId());
         db.collection("_events").document(eventID).collection("attendees").document(android_id).set(atteendesFields);
+
+        db.collection("users").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if(task.isComplete()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    User user = documentSnapshot.toObject(User.class);
+
+                    ArrayList<String> attendedEvents = user.getAttendedEvents();
+
+                    attendedEvents.add(eventID);
+
+
+                    db.collection("users").document(uid).update("attendedEvents", attendedEvents);
+
+                }
+            }
+        });
 
     }
 
