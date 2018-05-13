@@ -61,6 +61,8 @@ public class GeActivity  extends AppCompatActivity {
     private RelativeLayout rlt;
 	private CustomEventAdapter mAdapter;
 	private List<Event> eventList;
+	private User mCurrentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,8 @@ public class GeActivity  extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("GE Progress");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -84,33 +88,14 @@ public class GeActivity  extends AppCompatActivity {
 
         mProgress = new ProgressDialog(this);
 
-        User currentUser = MainActivity.userModel;
-
-        //updating ge progress bar according to user's points
-
-        int ge_point = currentUser.getGeTotal();
-
-		txtCounter.setText(ge_point + "/200");
-
-		mSeekBar.setMax(200);
-		mSeekBar.setEnabled(false);
-		mSeekBar.setProgress(ge_point);
-
-		//past events scroll bar infos
-
-		String[] data = new String[currentUser.getAttendedEvents().size()];
-		data = currentUser.getAttendedEvents().toArray(data);
 
 
-		eventList = new ArrayList<>();
-		mAdapter = new CustomEventAdapter(GeActivity.this,eventList);
 
-		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-		recyclerView.setLayoutManager(layoutManager);
-		recyclerView.setItemAnimator(new DefaultItemAnimator());
-		recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
-		recyclerView.setAdapter(mAdapter);
-		new getEvents().execute(data);
+        updateData();
+
+
+
+
 
 
     }
@@ -152,6 +137,72 @@ public class GeActivity  extends AppCompatActivity {
 			super.onPostExecute(s);
 
 		}
+	}
+
+	private void updateData(){
+
+    	mProgress.setTitle("Getting Data");
+    	mProgress.setMessage("Please wait...");
+    	mProgress.setCanceledOnTouchOutside(false);
+    	mProgress.show();
+
+    	db.collection("users").document(mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+			@Override
+			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+				if(task.isComplete()){
+
+					DocumentSnapshot documentSnapshot = task.getResult();
+
+					if(documentSnapshot != null){
+
+
+						MainActivity.userModel = documentSnapshot.toObject(User.class);
+						mProgress.hide();
+
+						mCurrentUser = MainActivity.userModel;
+
+						//updating ge progress bar according to user's points
+
+						int ge_point = mCurrentUser.getGeTotal();
+
+						txtCounter.setText(ge_point + "/200");
+
+						mSeekBar.setMax(200);
+						mSeekBar.setEnabled(false);
+						mSeekBar.setProgress(ge_point);
+
+						//past events scroll bar infos
+
+						String[] data = new String[ mCurrentUser.getAttendedEvents().size()];
+						data = mCurrentUser.getAttendedEvents().toArray(data);
+
+
+						eventList = new ArrayList<>();
+						mAdapter = new CustomEventAdapter(GeActivity.this,eventList);
+
+						RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+						recyclerView.setLayoutManager(layoutManager);
+						recyclerView.setItemAnimator(new DefaultItemAnimator());
+						recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+						recyclerView.setAdapter(mAdapter);
+						new getEvents().execute(data);
+
+
+					}
+
+					else {
+						mProgress.hide();
+					}
+
+				} else {
+
+					mProgress.hide();
+
+				}
+			}
+		});
+
+
 	}
 
 }
