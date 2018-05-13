@@ -46,6 +46,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 
+		//Set toolbar
 		mToolbar = findViewById(R.id.about_toolbar);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setTitle("About");
@@ -55,6 +56,7 @@ public class AboutActivity extends AppCompatActivity {
 
 		setMailOfDev();
 
+		//Set view
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setDescription("evenU brings you all Bilkent events in a stylish and accessible way!")
@@ -77,6 +79,7 @@ public class AboutActivity extends AppCompatActivity {
 
     }
 
+    //Set email to developers
 	private void setMailOfDev(){
     	for(int i = 0; i < names.length; i++){
     		devs[i] = new Element();
