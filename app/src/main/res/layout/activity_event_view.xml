@@ -69,11 +69,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="55dp"
             android:fontFamily="@font/roboto"
+            android:layout_below="@+id/event_view_txt_title"
             android:maxLines="1"
             android:text="By CS Club"
+            android:layout_marginTop="5dp"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="14sp" />
@@ -83,10 +83,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/event_view_txt_title"
+            android:layout_below="@+id/event_view_txt_club"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto"
             android:maxLines="4"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa quam.Lor ipsum... dolor sit amet, consectetur adipiscing elit. Nam massa quam.Lorem ipsum dolor sit ametconsectetur adipiscing elit. Nam massa quam."
@@ -143,21 +143,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="140dp">
 
-                <TextView
-                    android:id="@+id/event_view_txt_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_toRightOf="@id/imageView2"
-                    android:fontFamily="@font/roboto"
-                    android:lines="2"
-                    android:maxLines="2"
-                    android:minLines="2"
-                    android:text="28.04.2018\n17:40"
-                    android:textColor="#000000" />
-
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
@@ -167,6 +152,22 @@
                     android:layout_centerVertical="true"
                     android:layout_marginTop="25dp"
                     app:srcCompat="@drawable/ic_date_range" />
+                <TextView
+                    android:id="@+id/event_view_txt_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/roboto"
+                    android:layout_toRightOf="@id/imageView2"
+                    android:layout_marginLeft="5dp"
+                    android:lines="2"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:text="28.04.2018\n17:40"
+                    android:textColor="#000000"/>
+
+
             </RelativeLayout>
 
             <RelativeLayout
