@@ -34,6 +34,7 @@ public class ForgotPassActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_forgot_pass);
 
+		//Setting toolbar
 		mToolbar = findViewById(R.id.forgot_toolbar);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setTitle("Forgot password");
@@ -45,6 +46,7 @@ public class ForgotPassActivity extends AppCompatActivity {
 
 		mProgress = new ProgressDialog(this);
 
+		//Send email for password
 		btnSend.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -53,6 +55,7 @@ public class ForgotPassActivity extends AppCompatActivity {
 
 				View view = ForgotPassActivity.this.getCurrentFocus();
 
+				// Close keyboard
 				if(view != null) {
 					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(view.getWindowToken(),0);
@@ -67,6 +70,7 @@ public class ForgotPassActivity extends AppCompatActivity {
 					mProgress.setCanceledOnTouchOutside(false);
 					mProgress.show();
 
+					//Send email
 					FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
 						@Override
 						public void onSuccess(Void aVoid) {
