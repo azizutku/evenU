@@ -63,7 +63,7 @@ public class SliderAdapter extends PagerAdapter {
 
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
-
+		//Instantiate items by respect to position
 		layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 		View view = layoutInflater.inflate(R.layout.slide_layout, container, false);
 
@@ -84,6 +84,7 @@ public class SliderAdapter extends PagerAdapter {
 
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
+		//Remove view
 		container.removeView((RelativeLayout)object);
 	}
 }
