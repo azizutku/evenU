@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+		//Set toolbar
 		mToolbar = findViewById(R.id.login_toolbar);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setTitle("Login");
@@ -69,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 		txtForgot.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//Open ForgatPassActivity
 				Intent intent = new Intent(LoginActivity.this,ForgotPassActivity.class);
 				startActivity(intent);
 			}
@@ -80,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
 				btnSignIn.setEnabled(false);
 
+				//Hide keyboard
 				View view = LoginActivity.this.getCurrentFocus();
 				if (view != null) {
 					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -109,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	private void login(String email, String password){
+		//Login with email and password
 		mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
@@ -116,10 +120,11 @@ public class LoginActivity extends AppCompatActivity {
 				if(task.isSuccessful()){
 					Log.d(TAG,"Signing successfully");
 
-
+					//get user id and token id
 					String userID = FirebaseAuth.getInstance().getUid();
 					String tokenID = FirebaseInstanceId.getInstance().getToken();
 
+					//Set new token id
 					db.collection("users").document(userID).update("tokenID",tokenID).addOnCompleteListener(new OnCompleteListener<Void>() {
 						@Override
 						public void onComplete(@NonNull Task<Void> task) {
@@ -130,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 								mProgress.dismiss();
 								btnSignIn.setEnabled(true);
 
+								//If email is verified start MainActivity
 								if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
 
 									Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -137,7 +143,10 @@ public class LoginActivity extends AppCompatActivity {
 									startActivity(intent);
 									finish();
 
-								} else {
+								}
+
+								//Else start VerifyActivity
+								else {
 
 									Intent intent = new Intent(LoginActivity.this, VerifyActivity.class);
 									intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
