@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -32,34 +33,43 @@
 
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".StartActivity"/>
         <activity
             android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".StartActivity"/>
         <activity
             android:name=".ForgotPassActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".LoginActivity"/>
         <activity android:name=".VerifyActivity"/>
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".ScannerActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".Generate"/>
         <activity
             android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".GeActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".EventView"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".ListActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity">
         </activity>
     </application>
