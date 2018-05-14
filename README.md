@@ -25,5 +25,7 @@ evenU is an event organizer, attendance taker, and data collection facilitator. 
 * **Aysegul Gokce** - *Profile, GE Activity, Settings* - [Aysegul Gokce](https://github.com/sdaysegul)
 * **Endri Suknaj** - *Model Classes* - [Endri Suknaj]()
 
+## Second Application in this project
+* https://zeyadkhaled.github.io/evenUClub/
 
 
