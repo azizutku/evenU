@@ -123,7 +123,7 @@ public class ScannerFragment extends Fragment {
 
     /**
      *                          #@Checks Flow Chart@#
-     *                                                                                                                             |-> Check GE -> Update GE
+     *                                                                                                                             |-> Check GE -> Update GE -> Add in attended list
      * Check if QR is valid after regex split -> Check internet access -> Check EVENT_ID -> Check security_check -> Check Timestamp -> Check Android_id_db -> Retrieve Attendee's details -> SendRequest
      *                                                                                                                            |-> Add Android_id to Database
      */
@@ -148,23 +148,7 @@ public class ScannerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_scanner, container, false);
         resultView = view.findViewById(R.id.textViewResult);
 
-//        //Testing List Generation
-//        listGenerate = view.findViewById(R.id.generatlist_button);
-//        listGenerate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                generateList(null);
-//            }
-//        });
-//
-//        //Testing QR generation
-//        generate = view.findViewById(R.id.generate_button);
-//        generate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity() , Generate.class);
-//                startActivity(intent);         }
-//        });
+
 
         //Opening intent when scan button is being pressed and making necessary permission checks.
         qrScan = view.findViewById(R.id.scan_qr);
